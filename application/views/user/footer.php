@@ -1,8 +1,7 @@
 <footer>
     <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-9 text-center">
-            <p>Vidzzz © 2024</p>
+        <div class="col-md-12 text-center">
+            <p>Veddzy © 2024</p>
         </div>
     </div>
 </footer>

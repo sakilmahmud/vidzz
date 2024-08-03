@@ -3,7 +3,7 @@
         <div class="range_video">
             <div class="row">
                 <?php if (isset($error)) : ?>
-                    <p style="color: red;"><?php echo $error; ?></p>
+                    <p class="text-center" style="color: red;"><?php echo $error; ?></p>
                 <?php endif; ?>
 
                 <?php if (isset($videoDetails) && !empty($videoDetails)) : ?>
