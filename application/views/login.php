@@ -18,7 +18,9 @@
 <body>
   <header class="full_header fixed-top">
     <div class="container-fluid">
-      <img src="assets/images/logo.png" class="img-fluid logo_img" alt="logo_img">
+      <a href="<?php echo base_url() ?>">
+        <img src="assets/images/logo.png" class="img-fluid logo_img" alt="logo_img">
+      </a>
     </div>
   </header>
 

@@ -35,6 +35,7 @@ class UserController extends CI_Controller
         //print_r($this->session->userdata); die;
 
         $this->load->model('SettingsModel');
+        $this->load->model('YouTubeModel');
 
         $this->load->helper('custom_helper');
 
@@ -60,6 +61,32 @@ class UserController extends CI_Controller
         $this->load->view('user/header', $data);
         $this->load->view('user/dashboard', $data);
         $this->load->view('user/footer');
+    }
+
+    public function add_campaign()
+    {
+        $data['activePage'] = 'add_campaign';
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $url = $this->input->post('youtube_url');
+            $videoId = $this->extractVideoId($url);
+
+            if ($videoId) {
+                $data['videoDetails'] = $this->YouTubeModel->getVideoDetails($videoId);
+            } else {
+                $data['error'] = 'Invalid YouTube URL';
+            }
+        }
+
+        $this->load->view('user/header', $data);
+        $this->load->view('user/add_campaign', $data);
+        $this->load->view('user/footer');
+    }
+
+    private function extractVideoId($url)
+    {
+        parse_str(parse_url($url, PHP_URL_QUERY), $params);
+        return $params['v'] ?? null;
     }
 
     public function generalSettings()

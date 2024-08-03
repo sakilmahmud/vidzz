@@ -20,4 +20,5 @@ $route['admin/password']        = 'AdminController/passwordChange';
 $route['admin/password/update'] = 'AdminController/updatePassword';
 
 /** user routes */
-$route['user/dashboard']       = 'UserController/dashboard';
+$route['user/dashboard']        = 'UserController/dashboard';
+$route['user/add-campaign']     = 'UserController/add_campaign';
