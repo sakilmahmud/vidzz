@@ -8,8 +8,6 @@
 
 </div>
 
-
-<script src="<?php echo base_url() ?>assets/js/jquery3.7.1.min.js"></script>
 <script src="<?php echo base_url() ?>assets/js/bootstrap.bundle.min.js"></script>
 <script src="<?php echo base_url() ?>assets/js/aos.js"></script>
 <script src="<?php echo base_url() ?>assets/js/jquery.fancybox.min.js"></script>

@@ -36,6 +36,8 @@ class UserController extends CI_Controller
 
         $this->load->model('SettingsModel');
         $this->load->model('YouTubeModel');
+        $this->load->model('CampaignModel');
+        $this->load->model('PaymentModel');
 
         $this->load->helper('custom_helper');
 
@@ -63,6 +65,36 @@ class UserController extends CI_Controller
         $this->load->view('user/footer');
     }
 
+    public function all_campaigns()
+    {
+        $data['activePage'] = 'campaigns';
+
+        // Get all campaigns
+        $campaigns = $this->CampaignModel->get_all_campaigns();
+
+        // Fetch video details for each campaign
+        foreach ($campaigns as $campaign) {
+            if ($campaign->video_id) {
+                $videoDetails = $this->YouTubeModel->getVideoDetails($campaign->video_id);
+                if ($videoDetails) {
+                    $campaign->videoDetails = $videoDetails;
+                } else {
+                    $campaign->videoDetails = null;
+                }
+            } else {
+                $campaign->videoDetails = null;
+            }
+        }
+
+        $data['campaigns'] = $campaigns;
+
+        $this->load->view('user/header', $data);
+        $this->load->view('user/campaigns', $data);
+        $this->load->view('user/footer');
+    }
+
+
+
     public function add_campaign()
     {
         $data['activePage'] = 'add_campaign';
@@ -83,10 +115,95 @@ class UserController extends CI_Controller
         $this->load->view('user/footer');
     }
 
+    public function create_campaign()
+    {
+        $campaign_data = [
+            'user_id' => $this->session->userdata('user_id'),
+            'video_id' => $this->input->post('video_id'),
+            'estimated_view' => $this->input->post('estimated_view'),
+            'budget' => $this->input->post('budget'),
+            'country_id' => $this->input->post('country_id'),
+            'campaign_type' => $this->input->post('campaign_type'),
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+
+        $this->CampaignModel->insert_campaign($campaign_data);
+
+        $campaign_id = $this->db->insert_id();
+
+        // Insert payment data
+        $payment_data = [
+            'user_id' => $this->session->userdata('user_id'),
+            'campaign_id' => $campaign_id, // Get the last inserted campaign ID
+            'video_id' => $this->input->post('video_id'),
+            'estimated_view' => $this->input->post('estimated_view'),
+            'payment_amount' => $this->input->post('budget'),
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+
+        $this->PaymentModel->insert_payment($payment_data);
+
+        $payment_id = $this->db->insert_id(); // Get the last inserted payment ID
+        redirect("user/payments/$payment_id"); // Redirect to the payments view
+    }
+
+    public function payments($payment_id)
+    {
+        $data['activePage'] = 'payments';
+
+        $payment_details = $this->PaymentModel->get_payment_data($payment_id);
+        $videoId = $payment_details->video_id;
+        $data['payment_details'] = $payment_details;
+        if ($videoId) {
+            $data['videoDetails'] = $this->YouTubeModel->getVideoDetails($videoId);
+        } else {
+            $data['error'] = 'Invalid YouTube URL';
+        }
+
+        $this->load->view('user/header', $data);
+        $this->load->view('user/payments', $data);
+        $this->load->view('user/footer');
+    }
+
     private function extractVideoId($url)
     {
         parse_str(parse_url($url, PHP_URL_QUERY), $params);
         return $params['v'] ?? null;
+    }
+
+    public function profile()
+    {
+        $user_id = $this->session->userdata('user_id');
+        $data['user'] = $this->UserModel->get_user_by_id($user_id);
+
+        $this->load->view('user/header', $data);
+        $this->load->view('user/profile', $data);
+        $this->load->view('user/footer');
+    }
+
+    public function update_profile()
+    {
+        $user_id = $this->session->userdata('user_id');
+
+        $this->form_validation->set_rules('username', 'Username', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->profile();
+        } else {
+            $data = [
+                'username' => $this->input->post('username'),
+                'email' => $this->input->post('email'),
+                'first_name' => $this->input->post('first_name'),
+                'last_name' => $this->input->post('last_name'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ];
+
+            $this->UserModel->update_user($user_id, $data);
+
+            $this->session->set_flashdata('success', 'Profile updated successfully.');
+            redirect('user/profile');
+        }
     }
 
     public function generalSettings()

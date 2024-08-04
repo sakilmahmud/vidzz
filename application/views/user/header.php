@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="<?php echo base_url() ?>assets/css/owl.carousel.min.css">
     <link rel="stylesheet" href="<?php echo base_url() ?>assets/css/owl.theme.default.min.css">
     <link rel="stylesheet" href="<?php echo base_url() ?>assets/css/style.css">
+    <script src="<?php echo base_url() ?>assets/js/jquery3.7.1.min.js"></script>
 </head>
 
 <body>
@@ -34,10 +35,10 @@
                     <a href="<?php echo base_url('user/dashboard'); ?>" class="active"><img src="<?php echo base_url() ?>assets/images/video_icon.png" class="img-fluid" alt="sidebar_img">Promote a Video</a>
                 </li>
                 <li>
-                    <a href="#"><img src="<?php echo base_url() ?>assets/images/campaign_icon.png" class="img-fluid" alt="sidebar_img">Campaigns</a>
+                    <a href="<?php echo base_url('user/campaigns'); ?>"><img src="<?php echo base_url() ?>assets/images/campaign_icon.png" class="img-fluid" alt="sidebar_img">Campaigns</a>
                 </li>
                 <li>
-                    <a href="#"><img src="<?php echo base_url() ?>assets/images/profile_icon_sm.png" class="img-fluid" alt="sidebar_img">Profile</a>
+                    <a href="<?php echo base_url('user/profile'); ?>"><img src="<?php echo base_url() ?>assets/images/profile_icon_sm.png" class="img-fluid" alt="sidebar_img">Profile</a>
                 </li>
                 <li>
                     <a href="<?php echo base_url('logout'); ?>"><img src="<?php echo base_url() ?>assets/images/logout.png" class="img-fluid" alt="sidebar_img">Log Out</a>
@@ -72,7 +73,7 @@
                         </div>
                         <div class="menu">
                             <ul>
-                                <li><a href="#"><img src="<?php echo base_url() ?>assets/images/profile_line.png" alt="line_img">Profile</a></li>
+                                <li><a href="<?php echo base_url('user/profile'); ?>"><img src="<?php echo base_url() ?>assets/images/profile_line.png" alt="line_img">Profile</a></li>
                                 <li><a href="#"><img src="<?php echo base_url() ?>assets/images/payment_line.png" alt="line_img">Payments</a></li>
                                 <li><a href="<?php echo base_url('logout'); ?>"><img src="<?php echo base_url() ?>assets/images/logout.png" alt="line_img">Logout</a></li>
                             </ul>

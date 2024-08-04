@@ -376,4 +376,18 @@ class UserModel extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+
+    public function get_user_by_id($user_id)
+    {
+        $this->db->where('id', $user_id);
+        $query = $this->db->get('users');
+        return $query->row();
+    }
+
+    public function update_user($user_id, $data)
+    {
+        $this->db->where('id', $user_id);
+        return $this->db->update('users', $data);
+    }
 }

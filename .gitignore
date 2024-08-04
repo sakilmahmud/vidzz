@@ -40,6 +40,8 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /docs/
 /html/
 /system/
-/assets/
+/assets/images
+/assets/fontawesome-free-6.5.2-web
+/assets/admin/*
 assets/uploads/*
 *.zip

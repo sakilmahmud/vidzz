@@ -1,0 +1,20 @@
+.campaign_bx{padding: 50px 100px;}
+.campaign_heading_bx{background: var(--white);height: 40px;border-radius: 20px 20px 0px 0px;;margin-bottom: 50px;position: relative;}
+.campaign_heading_bx:before{position: absolute;content: '';width:100%;height: 3px;background: var(--gradient);left: 0%;bottom: 0%;}
+.campaign_heading_bx p{margin-bottom: 0px;text-align: center;line-height: 40px;background: var(--gradient3);
+-webkit-background-clip: text;-webkit-text-fill-color: transparent;background-clip: text;font-weight: 600;}
+.campaign_status_bx{display: flex;align-items: center;margin:40px 0px 40px 0px}
+.campaign_status_single{display: flex;align-items: center;}
+.campaign_status_bx hr {background: #545454;margin: 0px 20px;width: 80px;height: 2px;}
+.campaign_status_single p{margin-bottom: 0px;}
+.campaign_status_single.one .bx{outline: 4px solid #FFE60A;outline-offset: 4px;border-radius: 50%;background: #FFE60A;width: 10px;height: 10px;margin-right: 15px;}
+.campaign_status_single.two .bx{outline: 4px solid #05F0FF;outline-offset: 4px;border-radius: 50%;background: #05F0FF;width: 10px;height: 10px;margin-right: 15px;}
+.campaign_status_single.three .bx{outline: 1px solid #545454;outline-offset: 3px;border-radius: 50%;background: var(--white);width: 15px;height: 15px;margin-right: 15px;}
+
+.campaign_pay{display: flex;justify-content: end;margin-bottom: 50px;}
+.campaign_pay_right{margin-left: 50px;}
+.campaign_pay_right p{font-weight: 600;color: #545454;font-size: 18px;}
+.campaign_pay_right h6{text-align: right;background: var(--gradient3);-webkit-background-clip: text;-webkit-text-fill-color: transparent;background-clip: text;font-weight: 600;font-size: 20px;}
+.campaign_pay_right h6 span{font-weight: 500;}
+.campaign_pay_right a{float: right;margin-top: 10px;}
+.campaign .hidden{visibility: hidden;}

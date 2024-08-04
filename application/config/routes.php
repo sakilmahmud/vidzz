@@ -21,4 +21,10 @@ $route['admin/password/update'] = 'AdminController/updatePassword';
 
 /** user routes */
 $route['user/dashboard']        = 'UserController/dashboard';
+$route['user/campaigns']        = 'UserController/all_campaigns';
 $route['user/add-campaign']     = 'UserController/add_campaign';
+$route['user/create-campaign']  = 'UserController/create_campaign';
+$route['user/payments/(:num)'] = 'UserController/payments/$1';
+
+$route['user/profile'] = 'UserController/profile';
+$route['user/update_profile'] = 'UserController/update_profile';
