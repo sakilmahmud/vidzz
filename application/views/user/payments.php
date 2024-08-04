@@ -107,8 +107,8 @@
                         <div class="youtube_range_area">
                             <div class="payment-container">
                                 <h3>Bill Summary</h3>
-                                <p>Campaign Cost: <span>$300.00</span></p>
-                                <p class="total">Total Amount Payable: <span>$300.00</span></p>
+                                <p>Campaign Cost: <span>$<?php echo number_format($payment_details->payment_amount); ?></span></p>
+                                <p class="total">Total Amount Payable: <span>$<?php echo number_format($payment_details->payment_amount); ?></span></p>
 
                                 <div class="view_count">
                                     <p>Estimated View Count</p>
