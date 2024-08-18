@@ -11,3 +11,4 @@ $config['paypal_settings'] = array(
     'log.FileName' => APPPATH . 'logs/paypal.log',
     'log.LogLevel' => 'DEBUG', // Available levels: FINE, INFO, WARN, ERROR
 );
+$config['paypal_lib_currency_code'] = 'USD'; // Example for US Dollars
