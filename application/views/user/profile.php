@@ -2,29 +2,50 @@
     <div class="dashboard_content_area">
         <div class="container pt-2">
             <h2 class=" pb-5">Profile</h2>
-            <?php if ($this->session->flashdata('success')) : ?>
-                <div class="alert alert-success">
-                    <?php echo $this->session->flashdata('success'); ?>
-                </div>
-            <?php endif; ?>
+            <div class="profile_form_area">
+                <?php if ($this->session->flashdata('success')) : ?>
+                    <div class="alert alert-success">
+                        <?php echo $this->session->flashdata('success'); ?>
+                    </div>
+                <?php endif; ?>
 
-            <?php echo validation_errors('<div class="alert alert-danger">', '</div>'); ?>
+                <?php echo validation_errors('<div class="alert alert-danger">', '</div>'); ?>
 
-            <form action="<?php echo base_url('user/update_profile'); ?>" method="post">
-                <div class="form-group mb-3">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" value="<?php echo set_value('username', $user->username); ?>" required>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" value="<?php echo set_value('email', $user->email); ?>" required>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="full_name">Full Name</label>
-                    <input type="text" class="form-control" id="full_name" name="full_name" value="<?php echo set_value('full_name', $user->full_name); ?>">
-                </div>
-                <button type="submit" class="btn bg_btn mt-3">Update Profile</button>
-            </form>
+                <form action="<?php echo base_url('user/update_profile'); ?>" method="post">
+                    <div class="form_column">
+                        <div class="form-group">
+                            <label for="first_name">First Name</label>
+                            <input type="text" class="form-control" id="full_name" name="full_name" value="<?php echo set_value('full_name', $user->full_name); ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">Last Name</label>
+                            <input type="text" class="form-control" id="full_name" name="full_name" value="<?php echo set_value('full_name', $user->full_name); ?>">
+                        </div>
+                    </div>
+                    <div class="form_column">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" value="<?php echo set_value('username', $user->username); ?>" disabled>
+                        </div>
+                        <div class="form-group ">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" value="<?php echo set_value('email', $user->email); ?>" disabled>
+                        </div>
+                    </div>
+                    <div class="form_column">
+                        <div class="form-group">
+                            <label for="username">Old Password</label>
+                            <input type="text" class="form-control" id="oldpass" name="oldpass" value="">
+                        </div>
+                        <div class="form-group ">
+                            <label for="newpass">New Password</label>
+                            <input type="text" class="form-control" id="newpass" name="newpass" value="">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn bg_btn mt-3">Update Profile</button>
+                </form>
+            </div>
+
         </div>
     </div>
 </div>
