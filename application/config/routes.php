@@ -7,6 +7,11 @@ $route['translate_uri_dashes']  = FALSE;
 
 /** Authentication */
 $route['register']              = 'authController/register';
+$route['user/register']         = 'authController/register_user';
+
+$route['verify']                = 'authController/verify';
+
+
 $route['login']                 = 'authController/login';
 $route['logout']                = 'authController/logout';
 

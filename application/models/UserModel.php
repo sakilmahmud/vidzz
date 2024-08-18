@@ -4,14 +4,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class UserModel extends CI_Model
 {
 
-    public function addUser($userData)
+    public function insert_user($userData)
     {
         // Insert the patient's data into the 'users' table
         $this->db->insert('users', $userData);
 
         // Get the inserted patient's ID
-        $patientId = $this->db->insert_id();
-        return $patientId;
+        return $this->db->insert_id();
     }
 
     public function getUserById($user_id)
@@ -389,5 +388,16 @@ class UserModel extends CI_Model
     {
         $this->db->where('id', $user_id);
         return $this->db->update('users', $data);
+    }
+
+    public function getUserByToken($token)
+    {
+        return $this->db->get_where('users', ['verification_token' => $token])->row_array();
+    }
+
+    public function verifyUser($user_id)
+    {
+        $this->db->where('id', $user_id);
+        $this->db->update('users', ['is_verified' => 1, 'verification_token' => null]);
     }
 }

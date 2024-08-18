@@ -131,8 +131,12 @@ class UserController extends CI_Controller
         $videoDetails = $this->YouTubeModel->getVideoDetails($videoId);
         $video_title = "";
         $video_thumbs = "";
+        $channelId = "";
+        $channelTitle = "";
         if (!empty($videoDetails)) {
             $video_title = $videoDetails['items'][0]['snippet']['title'];
+            $channelId = $videoDetails['items'][0]['snippet']['channelId'];
+            $channelTitle = $videoDetails['items'][0]['snippet']['channelTitle'];
             $video_thumbs = serialize($videoDetails['items'][0]['snippet']['thumbnails']);
         }
 
@@ -141,6 +145,8 @@ class UserController extends CI_Controller
             'video_id' => $this->input->post('video_id'),
             'video_title' => $video_title,
             'video_thumbs' => $video_thumbs,
+            'channel_id' => $channelId,
+            'channel_title' => $channelTitle,
             'estimated_view' => $this->input->post('estimated_view'),
             'budget' => $this->input->post('budget'),
             'country_id' => $this->input->post('country_id'),

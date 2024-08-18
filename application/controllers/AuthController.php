@@ -18,145 +18,196 @@ class AuthController extends CI_Controller
 
     public function login()
     {
-        $data['error'] = ''; // Initialize the error message
+        // Initialize the error message
+        $data['error'] = '';
 
+        // Check if the user is already logged in
         if ($this->session->userdata('user_id')) {
-
-            $role = $this->session->userdata('role');
-            // User authentication successful, redirect to respective panel
-            switch ($role) {
-                case 1:
-                    redirect('admin/dashboard');
-                    break;
-                case 5:
-                    redirect('admin/dashboard');
-                    break;
-                case 2:
-                    redirect('admin/dashboard');
-                    break;
-                case 3:
-                    redirect('user/dashboard');
-                    break;
-                case 4:
-                    redirect('admin/dashboard');
-                    break;
-                default:
-                    redirect('login');
-                    break;
-            }
+            $this->redirectUserByRole($this->session->userdata('role'));
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Retrieve the form data
-            $username = $this->input->post('username');
-            $password = $this->input->post('password');
-
-            // Perform the login authentication
-            $user = $this->UserModel->getUserByUsernameOrMobileOrEmail($username);
-
-            if ($user && password_verify($password, $user['password'])) {
-
-                // Set user data in the session
-                $user_id = $user['id'];
-                $this->session->set_userdata('user_id', $user_id);
-                $this->session->set_userdata('full_name', $user['full_name']);
-                $this->session->set_userdata('role', $user['user_role']);
-
-                $remember = $this->input->post('remember') ? true : false;
-
-                // If "Remember Me" is checked, set a persistent cookie
-                if ($remember) {
-                    $cookie_value = $user_id . ':' . sha1($user_id . $username . $password . 'your_secret_key');
-                    $cookie_expiration = 60 * 60 * 24 * 30; // 30 days (adjust the time as needed)
-                    $this->input->set_cookie('remember_me', $cookie_value, $cookie_expiration);
-                }
-
-                // User authentication successful, redirect to respective panel
-                switch ($user['user_role']) {
-                    case 1:
-                        redirect('admin/dashboard');
-                        break;
-                    case 2:
-                        redirect('admin/dashboard');
-                        break;
-                    case 3:
-                        redirect('user/dashboard');
-                        break;
-                    case 4:
-                        redirect('admin/dashboard');
-                        break;
-                    default:
-                        redirect('login');
-                        break;
-                }
-            } else {
-                // Invalid username or password, set the error message
-                $data['error'] = 'Invalid username or password';
-            }
-        }
-
-        $this->load->view('login', $data); // Load the login view with error message if any
-    }
-
-    public function register()
-    {
-        // Method logic for patient registration
-        $data['activePage'] = 'register';
-
-        // Validate the form input
-        $this->form_validation->set_rules('full_name', 'Full Name', 'required');
-        $this->form_validation->set_rules('mobile', 'Mobile Number', 'required|is_unique[users.mobile]');
-        $this->form_validation->set_rules('email', 'Email', 'valid_email|is_unique[users.email]');
-        $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
-        $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
+        // Set validation rules
+        $this->form_validation->set_rules('username', 'Username or Email', 'required');
+        $this->form_validation->set_rules('password', 'Password', 'required');
 
         if ($this->form_validation->run() == FALSE) {
-            // Form validation failed, reload the view with validation errors
-            $this->load->view('register', $data);
+            // Validation failed, load the login view
+            $this->load->view('login', $data);
         } else {
-            // Form validation passed, save the patient's data
-            $fullName = $this->input->post('full_name');
-            $mobile = $this->input->post('mobile');
-            $email = $this->input->post('email');
-            $password = $this->input->post('password');
+            // Handle POST request
+            if ($this->input->server('REQUEST_METHOD') === 'POST') {
+                $username = $this->input->post('username');
+                $password = $this->input->post('password');
 
-            // Prepare the data to be inserted into the 'users' table
-            $userData = array(
-                'username' => $mobile,
-                'mobile' => $mobile,
-                'email' => $email,
-                'password' => password_hash($password, PASSWORD_DEFAULT),
-                'full_name' => $fullName
-            );
+                // Authenticate user
+                $user = $this->UserModel->getUserByUsernameOrMobileOrEmail($username);
 
-            // Check if the mobile number is unique before saving the data
-            $isMobileUnique = $this->UserModel->isMobileUniqueonRegister($mobile);
-            if (!$isMobileUnique) {
-                // Mobile number already exists, show an error message
-                $data['error'] = 'Mobile number already registered.';
-                $this->load->view('register', $data);
-                return;
+                if ($user) {
+                    if (!password_verify($password, $user['password'])) {
+                        // Invalid password
+                        $this->session->set_flashdata('error', 'Invalid password.');
+                    } elseif (!$user['is_verified']) {
+                        // User is not verified
+                        $this->session->set_flashdata('error', 'Your account is not verified. Please check your email to verify your account.');
+                    } else {
+                        // User is verified and password is correct, set user session data
+                        $this->setUserSession($user);
+
+                        // Handle "Remember Me" functionality
+                        if ($this->input->post('remember')) {
+                            $this->setRememberMeCookie($user, $username, $password);
+                        }
+
+                        // Redirect based on user role
+                        $this->session->set_flashdata('success', 'Welcome ' . $user['first_name']);
+                        $this->redirectUserByRole($user['user_role']);
+                    }
+                } else {
+                    // Invalid username or email
+                    $this->session->set_flashdata('error', 'Invalid username or email.');
+                }
             }
 
-            // Save the patient's data to the 'users' table using the UserModel
-            $patientId = $this->UserModel->createPatient($userData);
+            // Reload the login view with the error message
+            $this->load->view('login', $data);
+        }
+    }
 
-            if ($patientId) {
-                // Patient registration successful
 
-                // Save the mobile number as the username in the session
-                $this->session->set_userdata('user_id', $patientId);
-                $this->session->set_userdata('username', $mobile);
-
-                // Redirect to the patient dashboard
+    /**
+     * Redirect user based on their role.
+     *
+     * @param int $role
+     */
+    private function redirectUserByRole($role)
+    {
+        switch ($role) {
+            case 1:
+            case 2:
+            case 4:
+            case 5:
+                redirect('admin/dashboard');
+                break;
+            case 3:
                 redirect('user/dashboard');
+                break;
+            default:
+                redirect('login');
+                break;
+        }
+    }
+
+    /**
+     * Set user session data.
+     *
+     * @param array $user
+     */
+    private function setUserSession($user)
+    {
+        $this->session->set_userdata([
+            'user_id' => $user['id'],
+            'full_name' => $user['full_name'],
+            'role' => $user['user_role']
+        ]);
+    }
+
+    /**
+     * Set a persistent "Remember Me" cookie.
+     *
+     * @param array $user
+     * @param string $username
+     * @param string $password
+     */
+    private function setRememberMeCookie($user, $username, $password)
+    {
+        $cookie_value = $user['id'] . ':' . sha1($user['id'] . $username . $password . 'your_secret_key');
+        $cookie_expiration = 60 * 60 * 24 * 30; // 30 days
+        $this->input->set_cookie('remember_me', $cookie_value, $cookie_expiration);
+    }
+
+
+    // Display the registration page
+    public function register()
+    {
+        $this->load->view('register');
+    }
+
+    // Handle user registration
+    public function register_user()
+    {
+        // Set validation rules
+        $this->form_validation->set_rules('first_name', 'First Name', 'required');
+        $this->form_validation->set_rules('last_name', 'Last Name', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
+        $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
+        $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
+        $this->form_validation->set_rules('terms', 'Terms and Conditions', 'required');
+
+        // If validation fails
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('register');
+        } else {
+            // Generate verification token
+            $verification_token = bin2hex(random_bytes(50));
+
+            // Prepare data for insertion
+            $user_data = array(
+                'first_name' => $this->input->post('first_name'),
+                'last_name' => $this->input->post('last_name'),
+                'username' => $this->input->post('email'),
+                'email' => $this->input->post('email'),
+                'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
+                'verification_token' => $verification_token,
+                'is_verified' => 0
+            );
+
+            // Insert user data into the database
+            if ($this->UserModel->insert_user($user_data)) {
+                // Send verification email
+                $this->_send_verification_email($user_data['email'], $verification_token);
+
+                $this->session->set_flashdata('success', 'Registration successful. Please check your email for verification.');
+                redirect('login');
             } else {
-                // Failed to save the patient's data
-                // Handle the error accordingly (e.g., show an error message or redirect to an error page)
+                $this->session->set_flashdata('error', 'An error occurred. Please try again.');
+                $this->load->view('register');
             }
         }
     }
 
+    private function _send_verification_email($email, $token)
+    {
+        $verification_link = base_url('verify?token=' . $token);
+
+        $subject = "Email Verification";
+        $message = "<p>Please click the link below to verify your email address:</p>";
+        $message .= "<a href='" . $verification_link . "'>Verify Email</a>";
+
+        $this->load->library('email');
+
+        $this->email->from('noreply@yourdomain.com', 'Your Application Name');
+        $this->email->to($email);
+        $this->email->subject($subject);
+        $this->email->message($message);
+
+        $this->email->send();
+    }
+
+    public function verify()
+    {
+        $token = $this->input->get('token');
+
+        $user = $this->UserModel->getUserByToken($token);
+
+        if ($user && $user['is_verified'] == 0) {
+            $this->UserModel->verifyUser($user['id']);
+            $this->session->set_flashdata('success', 'Your email has been verified. You can now login.');
+            redirect('login');
+        } else {
+            $this->session->set_flashdata('error', 'Invalid token or your email is already verified.');
+            redirect('login');
+        }
+    }
 
     public function logout()
     {
