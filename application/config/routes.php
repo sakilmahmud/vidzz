@@ -34,3 +34,6 @@ $route['user/payment_success/(:num)'] = 'UserController/payment_success/$1';
 $route['user/payment_failed/(:num)'] = 'UserController/payment_failed/$1';
 $route['user/thank_you'] = 'UserController/thank_you';
 $route['user/payment_error'] = 'UserController/payment_error';
+
+
+$route['user/payment_history'] = 'UserController/payment_history';

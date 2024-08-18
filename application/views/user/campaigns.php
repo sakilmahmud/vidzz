@@ -1,7 +1,7 @@
 <div class="dashboard_content">
     <div class="dashboard_content_area">
-        <h2 class="mb-3">All Campaigns</h2>
-        <div class="campaign-list">
+        <h2 class="mb-3 pt-2">All Campaigns</h2>
+        <div class="campaign-list mt-5">
             <?php if (!empty($campaigns)) : ?>
                 <?php foreach ($campaigns as $campaign) : ?>
                     <div class="campaign-item row">

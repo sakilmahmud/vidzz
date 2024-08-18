@@ -925,7 +925,8 @@ header .nav-link {
 }
 
 .menu_admin_data {
-	position: relative;
+	position: absolute;
+	right: 0;
 }
 .profile {
 	position: relative;
@@ -968,7 +969,7 @@ header .nav-link {
 }
 .menu {
 	position: absolute;
-	top: 80px;
+	top: 5 0px;
 	right: 0px;
 	width: 200px;
 	min-height: 100px;
@@ -1593,6 +1594,7 @@ input[type="range"] {
 }
 .main_area {
 	width: 80%;
+	position: relative;
 }
 
 /*---------------------------------*/

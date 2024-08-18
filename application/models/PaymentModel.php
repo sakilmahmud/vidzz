@@ -38,4 +38,14 @@ class PaymentModel extends CI_Model
         $query = $this->db->get();
         return $query->row()->campaign_id;
     }
+
+    public function get_payment_history_with_campaigns($user_id)
+    {
+        $this->db->select();
+        $this->db->from('payments');
+        $this->db->where('user_id', $user_id);
+        $this->db->order_by('created_at', 'DESC');
+        $query = $this->db->get();
+        return $query->result();
+    }
 }

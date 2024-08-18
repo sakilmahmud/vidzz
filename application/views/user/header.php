@@ -32,13 +32,13 @@
             <h6>Youtube Promotion</h6>
             <ul>
                 <li>
-                    <a href="<?php echo base_url('user/dashboard'); ?>" class="active"><img src="<?php echo base_url() ?>assets/images/video_icon.png" class="img-fluid" alt="sidebar_img">Promote a Video</a>
+                    <a href="<?php echo base_url('user/dashboard'); ?>" class="<?php echo ($activePage === 'dashboard') ? 'active' : ''; ?>"><img src="<?php echo base_url() ?>assets/images/video_icon.png" class="img-fluid" alt="sidebar_img">Promote a Video</a>
                 </li>
                 <li>
-                    <a href="<?php echo base_url('user/campaigns'); ?>"><img src="<?php echo base_url() ?>assets/images/campaign_icon.png" class="img-fluid" alt="sidebar_img">Campaigns</a>
+                    <a href="<?php echo base_url('user/campaigns'); ?>" class="<?php echo ($activePage === 'campaigns') ? 'active' : ''; ?>"><img src="<?php echo base_url() ?>assets/images/campaign_icon.png" class="img-fluid" alt="sidebar_img">Campaigns</a>
                 </li>
                 <li>
-                    <a href="<?php echo base_url('user/profile'); ?>"><img src="<?php echo base_url() ?>assets/images/profile_icon_sm.png" class="img-fluid" alt="sidebar_img">Profile</a>
+                    <a href="<?php echo base_url('user/profile'); ?>" class="<?php echo ($activePage === 'profile') ? 'active' : ''; ?>"><img src="<?php echo base_url() ?>assets/images/profile_icon_sm.png" class="img-fluid" alt="sidebar_img">Profile</a>
                 </li>
                 <li>
                     <a href="<?php echo base_url('logout'); ?>"><img src="<?php echo base_url() ?>assets/images/logout.png" class="img-fluid" alt="sidebar_img">Log Out</a>
@@ -46,38 +46,20 @@
             </ul>
         </div>
         <div class="main_area">
-            <header class="dashboard_header">
-                <div class="header_content_area d-flex justify-content-between">
-                    <div class="channel_area">
-                        <div class="my_channel d-flex justify-content-between align-items-center">
-                            <p>My Channel</p>
-                            <i class="fa-solid fa-chevron-down"></i>
-                        </div>
-                        <a href="#">
-                            <div class="add_channel d-flex justify-content-left align-items-center">
-                                <img src="<?php echo base_url() ?>assets/images/add_channel.png" class="img-fluid" alt="channel">
-                                <p>Add Channel</p>
-                            </div>
-                        </a>
-
+            <div class="menu_admin_data">
+                <div class="profile">
+                    <div class="user">
+                        <h6><?php echo strtoupper($this->session->userdata('full_name')); ?></h6>
                     </div>
-                    <div class="menu_admin_data">
-                        <div class="profile">
-                            <div class="user">
-                                <h6><?php echo strtoupper($this->session->userdata('full_name')); ?></h6>
-                            </div>
-                            <div class="img-box">
-                                <img src="<?php echo base_url() ?>assets/images/person.png" alt="some user image">
-                            </div>
-
-                        </div>
-                        <div class="menu">
-                            <ul>
-                                <li><a href="<?php echo base_url('user/profile'); ?>"><img src="<?php echo base_url() ?>assets/images/profile_line.png" alt="line_img">Profile</a></li>
-                                <li><a href="#"><img src="<?php echo base_url() ?>assets/images/payment_line.png" alt="line_img">Payments</a></li>
-                                <li><a href="<?php echo base_url('logout'); ?>"><img src="<?php echo base_url() ?>assets/images/logout.png" alt="line_img">Logout</a></li>
-                            </ul>
-                        </div>
+                    <div class="img-box">
+                        <img src="<?php echo base_url() ?>assets/images/person.png" alt="some user image">
                     </div>
                 </div>
-            </header>
+                <div class="menu">
+                    <ul>
+                        <li><a href="<?php echo base_url('user/profile'); ?>"><img src="<?php echo base_url() ?>assets/images/profile_line.png" alt="line_img">Profile</a></li>
+                        <li><a href="<?php echo base_url('user/payment_history'); ?>"><img src="<?php echo base_url() ?>assets/images/payment_line.png" alt="line_img">Payments</a></li>
+                        <li><a href="<?php echo base_url('logout'); ?>"><img src="<?php echo base_url() ?>assets/images/logout.png" alt="line_img">Logout</a></li>
+                    </ul>
+                </div>
+            </div>

@@ -177,8 +177,33 @@ class UserController extends CI_Controller
         return $params['v'] ?? null;
     }
 
+    public function payment_history()
+    {
+        $data['activePage'] = 'payment_history';
+
+        // Get the current user ID
+        $user_id = $this->session->userdata('user_id');
+
+        // Get payment history for the current user
+        $data['payments'] = $this->PaymentModel->get_payment_history_with_campaigns($user_id);
+
+        $videoId = $payment_details->video_id;
+        $data['payment_details'] = $payment_details;
+        if ($videoId) {
+            $data['videoDetails'] = $this->YouTubeModel->getVideoDetails($videoId);
+        } else {
+            $data['error'] = 'Invalid YouTube URL';
+        }
+        // Load the view
+        $this->load->view('user/header', $data);
+        $this->load->view('user/payment_history', $data);
+        $this->load->view('user/footer');
+    }
+
+
     public function profile()
     {
+        $data['activePage'] = 'profile';
         $user_id = $this->session->userdata('user_id');
         $data['user'] = $this->UserModel->get_user_by_id($user_id);
 

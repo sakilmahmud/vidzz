@@ -213,7 +213,7 @@
             <div class="col-lg-4">
                 <div class="banner_bottom_box d-flex justify-content-center">
                     <div class="banner_bottom_box_left">
-                    <img src="<?php echo base_url() ?>assets/images/views.png" class="img-fluid" alt="bx_img">
+                        <img src="<?php echo base_url() ?>assets/images/views.png" class="img-fluid" alt="bx_img">
                         <h2>2.9<span>B</span></h2>
                     </div>
                     <div class="banner_bottom_box_right">
@@ -224,7 +224,7 @@
             <div class="col-lg-4">
                 <div class="banner_bottom_box d-flex justify-content-center">
                     <div class="banner_bottom_box_left">
-                    <img src="<?php echo base_url() ?>assets/images/success.png" class="img-fluid" alt="bx_img">
+                        <img src="<?php echo base_url() ?>assets/images/success.png" class="img-fluid" alt="bx_img">
                         <h2>109<span>K</span></h2>
                     </div>
                     <div class="banner_bottom_box_right">
@@ -235,7 +235,7 @@
             <div class="col-lg-4">
                 <div class="banner_bottom_box d-flex justify-content-center">
                     <div class="banner_bottom_box_left">
-                    <img src="<?php echo base_url() ?>assets/images/happy.png" class="img-fluid" alt="bx_img">
+                        <img src="<?php echo base_url() ?>assets/images/happy.png" class="img-fluid" alt="bx_img">
                         <h2>29<span>K</span></h2>
                     </div>
                     <div class="banner_bottom_box_right">
@@ -272,13 +272,13 @@
     <section class="choose">
 
         <div class="container">
-            
+
             <div class="choose_heading_content">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="choose_content_area">
                             <h3>Why <span>Choose Us</span></h3>
-           
+
                             <div class="choose_content_single">
                                 <div class="choose_content_single_left">
                                     <img src="<?php echo base_url() ?>assets/images/wcu1.png" class="img-fluid" alt="img">
@@ -287,7 +287,7 @@
                                     <h6>Experienced Team</h6>
                                     <p>Global Senior Level Operations Management</p>
                                 </div>
-                                
+
                             </div>
                             <div class="choose_content_single">
                                 <div class="choose_content_single_left">
@@ -297,15 +297,16 @@
                                     <h6>Technical Skills</h6>
                                     <p>Global Senior Level Operations Management</p>
                                 </div>
-                                
+
                             </div>
                             <div class="choose_content_single">
                                 <div class="choose_content_single_left">
                                     <img src="<?php echo base_url() ?>assets/images/wcu2.png" class="img-fluid" alt="img">
                                 </div>
                                 <div class="choose_content_single_right">
-                                <h6>Lean</h6>
-                                <p>Global Experience in deploying Lean programs</p></div>
+                                    <h6>Lean</h6>
+                                    <p>Global Experience in deploying Lean programs</p>
+                                </div>
                             </div>
                             <a href="#" class="btn bg_btn text-white">Promote videos now</a>
                         </div>
@@ -737,6 +738,20 @@
     <!-- <script src="<?php echo base_url() ?>assets/js/jquery.fancybox.min.js"></script> -->
     <script src="<?php echo base_url() ?>assets/js/owl.carousel.js"></script>
     <script src="<?php echo base_url() ?>assets/js/main.js"></script>
+    <script>
+        /* Testimonial*/
+        $(document).ready(function() {
+            $(".testimonial_all").owlCarousel({
+                items: 1,
+                loop: true,
+                autoplay: true,
+                smartSpeed: 700,
+                autoplayHoverPause: true,
+                nav: false,
+                margin: 40
+            });
+        });
+    </script>
 </body>
 
 </html>

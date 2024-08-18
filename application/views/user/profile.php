@@ -1,7 +1,7 @@
 <div class="dashboard_content">
     <div class="dashboard_content_area">
-        <div class="container mt-5">
-            <h2>Profile</h2>
+        <div class="container pt-2">
+            <h2 class=" pb-5">Profile</h2>
             <?php if ($this->session->flashdata('success')) : ?>
                 <div class="alert alert-success">
                     <?php echo $this->session->flashdata('success'); ?>
