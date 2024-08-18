@@ -201,6 +201,10 @@ class UserController extends CI_Controller
         // Get payment history for the current user
         $data['payments'] = $this->PaymentModel->get_payment_history_with_campaigns($user_id);
 
+        /* echo "<pre>";
+        print_r($data);
+        die; */
+
         // Load the view
         $this->load->view('user/header', $data);
         $this->load->view('user/payment_history', $data);

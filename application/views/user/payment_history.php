@@ -39,7 +39,7 @@
                             </td>
                             <td>$<?php echo number_format($payment->payment_amount, 2); ?></td>
                             <td><?php echo $payment->transaction_id; ?></td>
-                            <td><?php echo ($payment->status == 1) ? 'Paid' : 'Pending'; ?></td>
+                            <td><?php echo ($payment->payment_status == 1) ? 'Paid' : 'Pending'; ?></td>
                             <td><?php echo date('d M Y', strtotime($payment->created_at)); ?></td>
                         </tr>
                     <?php endforeach; ?>
