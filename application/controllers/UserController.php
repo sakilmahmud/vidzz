@@ -101,8 +101,6 @@ class UserController extends CI_Controller
         $this->load->view('user/footer');
     }
 
-
-
     public function add_campaign()
     {
         $data['activePage'] = 'add_campaign';
@@ -378,15 +376,30 @@ class UserController extends CI_Controller
         $execution->setPayerId($payerId);
 
         try {
+            // Execute the payment
             $result = $payment->execute($execution, $this->paypal_lib->getApiContext());
+
+            // Update the payment status in the database
             $this->PaymentModel->update_payment_status($payment_id, $result->getId(), 1, 'Payment successful.');
+
+            // Get the campaign ID from the payment (assuming payment_id relates to campaign_id)
+            $campaign_id = $this->PaymentModel->get_campaign_id_by_payment($payment_id);
+
+            // Update the campaign status to 1 (Paid)
+            $this->CampaignModel->update_campaign_status($campaign_id, 1);
+
+            // Set a flash message with the transaction ID
             $this->session->set_flashdata('transaction_id', $result->getId());
+
+            // Redirect to thank you page
             redirect('user/thank_you');
         } catch (Exception $ex) {
+            // Log any errors and redirect to payment failure page
             log_message('error', 'PayPal error: ' . $ex->getMessage());
             redirect('user/payment_failed/' . $payment_id);
         }
     }
+
 
     public function payment_failed($payment_id)
     {

@@ -2049,3 +2049,97 @@ input[type="range"] {
 	color: #999;
 	margin-top: 10px;
 }
+
+.campaign-list {
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+}
+
+.campaign-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px;
+	border-bottom: 1px solid #f4f4f4;
+}
+
+.campaign-item:last-child {
+	border-bottom: none;
+}
+
+.campaign-info {
+	display: flex;
+	align-items: center;
+}
+
+.campaign-info img {
+	border-radius: 10px;
+	width: 150px;
+	height: 90px;
+	object-fit: cover;
+	margin-right: 20px;
+}
+
+.campaign-status {
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.campaign-status span {
+	display: flex;
+	align-items: center;
+	margin-right: 20px;
+}
+
+.campaign-status span::before {
+	content: "";
+	display: block;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background-color: #ccc;
+	margin-right: 5px;
+}
+
+.campaign-title {
+	font-size: 1.2em;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+.campaign-id {
+	color: #999;
+}
+
+.campaign-actions {
+	text-align: right;
+}
+
+.campaign-actions p {
+	margin: 5px 0;
+	font-size: 1.1em;
+	color: #7d3fff;
+	font-weight: bold;
+}
+
+.campaign-actions button {
+	background-color: #7d3fff;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	padding: 10px 20px;
+	cursor: pointer;
+	font-size: 1em;
+}
+.campaign-status span.active {
+	font-weight: bold;
+	color: #7d3fff; /* Adjust the color as needed */
+}
+.campaign-status span.active::before {
+	background-color: #ffcc00;
+	border: 2px solid;
+	padding: 5px;
+}

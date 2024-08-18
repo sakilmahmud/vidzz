@@ -30,4 +30,12 @@ class PaymentModel extends CI_Model
         $this->db->where('id', $payment_id);
         return $this->db->update('payments', $data);
     }
+    public function get_campaign_id_by_payment($payment_id)
+    {
+        $this->db->select('campaign_id');
+        $this->db->from('payments');
+        $this->db->where('id', $payment_id);
+        $query = $this->db->get();
+        return $query->row()->campaign_id;
+    }
 }
