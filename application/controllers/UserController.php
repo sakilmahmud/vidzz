@@ -81,7 +81,7 @@ class UserController extends CI_Controller
         $campaigns = $this->CampaignModel->get_all_campaigns();
 
         // Fetch video details for each campaign
-        foreach ($campaigns as $campaign) {
+        /* foreach ($campaigns as $campaign) {
             if ($campaign->video_id) {
                 $videoDetails = $this->YouTubeModel->getVideoDetails($campaign->video_id);
                 if ($videoDetails) {
@@ -92,7 +92,7 @@ class UserController extends CI_Controller
             } else {
                 $campaign->videoDetails = null;
             }
-        }
+        } */
 
         $data['campaigns'] = $campaigns;
 
@@ -111,6 +111,9 @@ class UserController extends CI_Controller
 
             if ($videoId) {
                 $data['videoDetails'] = $this->YouTubeModel->getVideoDetails($videoId);
+                /* echo "<pre>";
+                print_r($data);
+                die; */
             } else {
                 $data['error'] = 'Invalid YouTube URL';
             }
@@ -123,13 +126,24 @@ class UserController extends CI_Controller
 
     public function create_campaign()
     {
+        $videoId = $this->input->post('video_id');
+
+        $videoDetails = $this->YouTubeModel->getVideoDetails($videoId);
+        $video_title = "";
+        $video_thumbs = "";
+        if (!empty($videoDetails)) {
+            $video_title = $videoDetails['items'][0]['snippet']['title'];
+            $video_thumbs = serialize($videoDetails['items'][0]['snippet']['thumbnails']);
+        }
+
         $campaign_data = [
             'user_id' => $this->session->userdata('user_id'),
             'video_id' => $this->input->post('video_id'),
+            'video_title' => $video_title,
+            'video_thumbs' => $video_thumbs,
             'estimated_view' => $this->input->post('estimated_view'),
             'budget' => $this->input->post('budget'),
             'country_id' => $this->input->post('country_id'),
-            'campaign_type' => $this->input->post('campaign_type'),
             'created_at' => date('Y-m-d H:i:s')
         ];
 
@@ -160,11 +174,11 @@ class UserController extends CI_Controller
         $payment_details = $this->PaymentModel->get_payment_data($payment_id);
         $videoId = $payment_details->video_id;
         $data['payment_details'] = $payment_details;
-        if ($videoId) {
+        /* if ($videoId) {
             $data['videoDetails'] = $this->YouTubeModel->getVideoDetails($videoId);
         } else {
             $data['error'] = 'Invalid YouTube URL';
-        }
+        } */
 
         $this->load->view('user/header', $data);
         $this->load->view('user/payments', $data);
@@ -187,13 +201,6 @@ class UserController extends CI_Controller
         // Get payment history for the current user
         $data['payments'] = $this->PaymentModel->get_payment_history_with_campaigns($user_id);
 
-        $videoId = $payment_details->video_id;
-        $data['payment_details'] = $payment_details;
-        if ($videoId) {
-            $data['videoDetails'] = $this->YouTubeModel->getVideoDetails($videoId);
-        } else {
-            $data['error'] = 'Invalid YouTube URL';
-        }
         // Load the view
         $this->load->view('user/header', $data);
         $this->load->view('user/payment_history', $data);

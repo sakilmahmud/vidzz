@@ -129,20 +129,20 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 mt-5">
-                                        <div class="compaign_type_area">
+                                        <!-- <div class="compaign_type_area">
                                             <p class="">What do you want besides views?</p>
                                             <div class="btn_area">
                                                 <a href="javascript:void(0)" class="btn btn-outline-info view_type">Subscribers</a>
                                                 <a href="javascript:void(0)" class="btn btn-outline-info view_type">Like</a>
                                                 <input type="hidden" name="campaign_type" id="campaignType" value="Subscribers">
                                             </div>
-                                        </div>
+                                        </div> -->
+                                        <button type="submit" class="create_campaign btn bg_btn text-white">Create Campaign</button>
                                     </div>
                                 </div>
                                 <input type="hidden" name="video_id" value="<?php echo $videoDetails['items'][0]['id']; ?>">
                                 <input type="hidden" name="estimated_view" id="estimatedView">
                                 <input type="hidden" name="status" value="1">
-                                <button type="submit" class="create_campaign btn bg_btn text-white">Create Campaign</button>
                             </form>
                         </div>
                     </div>
@@ -153,7 +153,11 @@
         </div>
     </div>
 </div>
-
+<style>
+    .create_campaign {
+        margin-top: 35px;
+    }
+</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
 <script>
     $(document).ready(function() {

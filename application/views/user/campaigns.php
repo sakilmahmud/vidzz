@@ -6,16 +6,18 @@
                 <?php foreach ($campaigns as $campaign) : ?>
                     <div class="campaign-item row">
                         <div class="campaign-info col-md-10">
-                            <?php if (isset($campaign->videoDetails) && !empty($campaign->videoDetails)) : ?>
+                            <?php if ($campaign->video_thumbs != "") :
+                                $videoDetails = unserialize($campaign->video_thumbs);
+                            ?>
                                 <div class="youtube_img_area">
                                     <div class="thumb_section">
                                         <div class="thumb_img">
-                                            <img src="<?php echo $campaign->videoDetails['items'][0]['snippet']['thumbnails']['high']['url']; ?>" class="img-fluid" alt="youtube_img">
+                                            <img src="<?php echo $videoDetails['high']['url']; ?>" class="img-fluid" alt="youtube_img">
                                         </div>
                                     </div>
                                 </div>
                             <?php else : ?>
-                                <img src="default_image_url.jpg" alt="Default Image">
+                                <img src="<?php echo base_url('assets/images/default_image_url.jpg'); ?>" alt="Video Thumbnail">
                             <?php endif; ?>
                             <div class="col-md-9">
                                 <div class="campaign-status">
@@ -41,21 +43,10 @@
                                         <span class="active">Completed</span>
                                     <?php endif; ?>
                                 </div>
-                                <div class="campaign-title"><?php echo $campaign->videoDetails['items'][0]['snippet']['title']; ?></div>
-                                <div class="campaign-id">Campaign ID #<?php echo $campaign->id; ?></div>
-                            </div>
-
-
-                            <!-- <div class="col-md-9">
-                                <div class="campaign-status">
-                                    <span class="active">Pending</span>
-                                    <span>Under Review</span>
-                                    <span>In Progress</span>
-                                    <span>Completed</span>
+                                <div class="campaign-title"><?php echo $campaign->video_title; ?></div>
+                                <div class="campaign-id">Campaign ID #<?php echo str_pad($campaign->id, 5, '0', STR_PAD_LEFT); ?>
                                 </div>
-                                <div class="campaign-title"><?php echo $campaign->videoDetails['items'][0]['snippet']['title']; ?></div>
-                                <div class="campaign-id">Campaign ID #<?php echo $campaign->id; ?></div>
-                            </div> -->
+                            </div>
                         </div>
                         <div class="campaign-actions col-md-2">
                             <p>Budget: $<?php echo number_format($campaign->budget, 2); ?></p>

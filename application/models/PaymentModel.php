@@ -13,8 +13,11 @@ class PaymentModel extends CI_Model
 
     public function get_payment_data($payment_id)
     {
-        $this->db->where('id', $payment_id);
-        $query = $this->db->get('payments');
+        $this->db->select('*, campaigns.id as campaign_id, campaigns.video_id as video_id, campaigns.video_title as video_title, campaigns.video_thumbs as video_thumbs');
+        $this->db->from('payments');
+        $this->db->join('campaigns', 'campaigns.id = payments.campaign_id', 'left');
+        $this->db->where('payments.id', $payment_id);
+        $query = $this->db->get();
         return $query->row();
     }
 
@@ -41,10 +44,11 @@ class PaymentModel extends CI_Model
 
     public function get_payment_history_with_campaigns($user_id)
     {
-        $this->db->select();
+        $this->db->select('*, campaigns.id as campaign_id, campaigns.video_id as video_id, campaigns.video_title as video_title, campaigns.video_thumbs as video_thumbs');
         $this->db->from('payments');
-        $this->db->where('user_id', $user_id);
-        $this->db->order_by('created_at', 'DESC');
+        $this->db->join('campaigns', 'campaigns.id = payments.campaign_id', 'left');
+        $this->db->where('campaigns.user_id', $user_id);
+        $this->db->order_by('payments.created_at', 'DESC');
         $query = $this->db->get();
         return $query->result();
     }

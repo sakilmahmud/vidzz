@@ -6,19 +6,26 @@
                     <p class="text-center" style="color: red;"><?php echo $error; ?></p>
                 <?php endif; ?>
 
-                <?php if (isset($videoDetails) && !empty($videoDetails)) : ?>
+                <?php
+                if (isset($payment_details) && !empty($payment_details)) :
+                    $youtube_img_url = "";
+                    $video_title = "";
+                    if ($payment_details->video_thumbs != "") :
+                        $videoDetails = unserialize($payment_details->video_thumbs);
+                        $youtube_img_url = $videoDetails['high']['url'];
+                        $video_title = $payment_details->video_title;
+                    endif;
+                ?>
                     <div class="col-lg-4">
                         <div class="youtube_img_area">
                             <div class="thumb_section">
                                 <div class="thumb_img">
-                                    <img src="<?php echo $videoDetails['items'][0]['snippet']['thumbnails']['high']['url']; ?>" class="img-fluid" alt="youtube_img">
+                                    <img src="<?php echo $youtube_img_url; ?>" class="img-fluid" alt="youtube_img">
                                 </div>
                                 <div class="video_title_sec">
                                     <div class="video_title">
-                                        <h6><?php echo $videoDetails['items'][0]['snippet']['title']; ?></h6>
-                                    </div>
-                                    <div class="channel_title">
-                                        <h6><i class="fa-brands fa-youtube"></i> <?php echo $videoDetails['items'][0]['snippet']['channelTitle']; ?></h6>
+                                        <h6><?php echo $video_title; ?></h6>
+                                        <strong>#<?php echo str_pad($payment_details->campaign_id, 5, '0', STR_PAD_LEFT); ?></strong>
                                     </div>
                                 </div>
                             </div>
