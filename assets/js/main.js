@@ -9,6 +9,10 @@ $(document).ready(function () {
 		}
 	});
 
+	/* Testimonial*/
+	$(".testimonial_all").owlCarousel({items:1,loop:true,autoplay: true,smartSpeed: 700,autoplayHoverPause: true,nav: false,margin: 40
+	});
+
 	$(".profile").click(function () {
 		$(".menu").toggleClass("active");
 	});
@@ -109,4 +113,6 @@ $(document).ready(function () {
 
 	// Initialize the slider and input box with the initial value
 	updateSlider($fromSlider.val());
+
+
 });

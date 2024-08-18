@@ -1,5 +1,12 @@
 <?php
 
+use PayPal\Api\Amount;
+use PayPal\Api\Payer;
+use PayPal\Api\Payment;
+use PayPal\Api\PaymentExecution;
+use PayPal\Api\RedirectUrls;
+use PayPal\Api\Transaction;
+
 class UserController extends CI_Controller
 {
 
@@ -39,8 +46,9 @@ class UserController extends CI_Controller
         $this->load->model('CampaignModel');
         $this->load->model('PaymentModel');
 
-        $this->load->helper('custom_helper');
+        $this->load->helper('custom_helper', 'url');
 
+        $this->load->library('paypal_lib');
 
         // Load the upload library for handling file uploads
         $this->load->library('upload'); // Make sure 'upload' is the correct name of the library class
@@ -323,5 +331,82 @@ class UserController extends CI_Controller
                 $this->load->view('admin/footer');
             }
         }
+    }
+
+    public function pay_with_paypal($payment_id)
+    {
+        $paymentDetails = $this->PaymentModel->get_payment_data($payment_id);
+
+        // Set up PayPal payment
+        $payer = new Payer();
+        $payer->setPaymentMethod('paypal');
+
+        $amount = new Amount();
+        $amount->setTotal($paymentDetails->payment_amount);
+        $amount->setCurrency('USD');
+
+        $transaction = new Transaction();
+        $transaction->setAmount($amount)
+            ->setDescription('Payment for Video Campaign');
+
+        $redirectUrls = new RedirectUrls();
+        $redirectUrls->setReturnUrl(base_url('user/payment_success/' . $payment_id))
+            ->setCancelUrl(base_url('user/payment_failed/' . $payment_id));
+
+        $payment = new Payment();
+        $payment->setIntent('sale')
+            ->setPayer($payer)
+            ->setTransactions(array($transaction))
+            ->setRedirectUrls($redirectUrls);
+
+        try {
+            $payment->create($this->paypal_lib->getApiContext());
+            redirect($payment->getApprovalLink());
+        } catch (Exception $ex) {
+            log_message('error', 'PayPal error: ' . $ex->getMessage());
+            redirect('user/payment_failed/' . $payment_id);
+        }
+    }
+
+    public function payment_success($payment_id)
+    {
+        $paymentId = $this->input->get('paymentId');
+        $payerId = $this->input->get('PayerID');
+
+        $payment = Payment::get($paymentId, $this->paypal_lib->getApiContext());
+        $execution = new PaymentExecution();
+        $execution->setPayerId($payerId);
+
+        try {
+            $result = $payment->execute($execution, $this->paypal_lib->getApiContext());
+            $this->PaymentModel->update_payment_status($payment_id, $result->getId(), 1, 'Payment successful.');
+            $this->session->set_flashdata('transaction_id', $result->getId());
+            redirect('user/thank_you');
+        } catch (Exception $ex) {
+            log_message('error', 'PayPal error: ' . $ex->getMessage());
+            redirect('user/payment_failed/' . $payment_id);
+        }
+    }
+
+    public function payment_failed($payment_id)
+    {
+        $this->PaymentModel->update_payment_status($payment_id, null, 0, 'Payment failed.');
+        redirect('user/payment_error');
+    }
+
+    public function thank_you()
+    {
+        $data['activePage'] = 'thank_you';
+        $this->load->view('user/header', $data);
+        $this->load->view('user/thank_you', $data);
+        $this->load->view('user/footer');
+    }
+
+    public function payment_error()
+    {
+        $data['activePage'] = 'payment_error';
+        $this->load->view('user/header', $data);
+        $this->load->view('user/payment_error', $data);
+        $this->load->view('user/footer');
     }
 }

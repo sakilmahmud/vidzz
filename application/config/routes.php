@@ -28,3 +28,9 @@ $route['user/payments/(:num)'] = 'UserController/payments/$1';
 
 $route['user/profile'] = 'UserController/profile';
 $route['user/update_profile'] = 'UserController/update_profile';
+
+$route['user/pay_with_paypal/(:num)'] = 'UserController/pay_with_paypal/$1';
+$route['user/payment_success/(:num)'] = 'UserController/payment_success/$1';
+$route['user/payment_failed/(:num)'] = 'UserController/payment_failed/$1';
+$route['user/thank_you'] = 'UserController/thank_you';
+$route['user/payment_error'] = 'UserController/payment_error';

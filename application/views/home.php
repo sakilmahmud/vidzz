@@ -213,6 +213,7 @@
             <div class="col-lg-4">
                 <div class="banner_bottom_box d-flex justify-content-center">
                     <div class="banner_bottom_box_left">
+                    <img src="<?php echo base_url() ?>assets/images/views.png" class="img-fluid" alt="bx_img">
                         <h2>2.9<span>B</span></h2>
                     </div>
                     <div class="banner_bottom_box_right">
@@ -223,6 +224,7 @@
             <div class="col-lg-4">
                 <div class="banner_bottom_box d-flex justify-content-center">
                     <div class="banner_bottom_box_left">
+                    <img src="<?php echo base_url() ?>assets/images/success.png" class="img-fluid" alt="bx_img">
                         <h2>109<span>K</span></h2>
                     </div>
                     <div class="banner_bottom_box_right">
@@ -233,6 +235,7 @@
             <div class="col-lg-4">
                 <div class="banner_bottom_box d-flex justify-content-center">
                     <div class="banner_bottom_box_left">
+                    <img src="<?php echo base_url() ?>assets/images/happy.png" class="img-fluid" alt="bx_img">
                         <h2>29<span>K</span></h2>
                     </div>
                     <div class="banner_bottom_box_right">
@@ -269,29 +272,42 @@
     <section class="choose">
 
         <div class="container">
-            <div class="choose_heading">
-                <h3>Why <span>Choose Us</span></h3>
-            </div>
+            
             <div class="choose_heading_content">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="choose_content_area">
+                            <h3>Why <span>Choose Us</span></h3>
+           
                             <div class="choose_content_single">
-                                <h6>Genuine Views</h6>
-                                <p>We help you achieve legitimate views for your YT videos. Our campaigns enable you to reach out to a relevant audience to promote YouTube videos using Google Adwords without causing any risk to your channel.</p>
+                                <div class="choose_content_single_left">
+                                    <img src="<?php echo base_url() ?>assets/images/wcu1.png" class="img-fluid" alt="img">
+                                </div>
+                                <div class="choose_content_single_right">
+                                    <h6>Experienced Team</h6>
+                                    <p>Global Senior Level Operations Management</p>
+                                </div>
+                                
                             </div>
                             <div class="choose_content_single">
-                                <h6>Get Authentic Engagement with YouTube Promotion</h6>
-                                <p>Your video is shown to the audience who are passionate about discovering your content. We only rely on the best ways to advertise a YouTube video across your target audience.</p>
+                                <div class="choose_content_single_left">
+                                    <img src="<?php echo base_url() ?>assets/images/wcu2.png" class="img-fluid" alt="img">
+                                </div>
+                                <div class="choose_content_single_right">
+                                    <h6>Technical Skills</h6>
+                                    <p>Global Senior Level Operations Management</p>
+                                </div>
+                                
                             </div>
                             <div class="choose_content_single">
-                                <h6>Self Serving Dashboard & 24/7 Support</h6>
-                                <p>We offer an intuitive dashboard that gives you complete analytics of your campaigns and tracks the progress. It also highlights the estimated number of views your videos shall receive when you advertise YouTube videos.</p>
+                                <div class="choose_content_single_left">
+                                    <img src="<?php echo base_url() ?>assets/images/wcu2.png" class="img-fluid" alt="img">
+                                </div>
+                                <div class="choose_content_single_right">
+                                <h6>Lean</h6>
+                                <p>Global Experience in deploying Lean programs</p></div>
                             </div>
-                            <div class="choose_content_single">
-                                <h6>Precise Targeting To Promote YouTube Video</h6>
-                                <p>Our dashboard includes all the necessary demographic information and Keywords to optimize the campaign further and help you promote your YouTube video.</p>
-                            </div>
+                            <a href="#" class="btn bg_btn text-white">Promote videos now</a>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -715,10 +731,10 @@
 
     <a href="#" class="to_top"><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
 
-    <script src="<?php echo base_url() ?>assets/js/jquery3.7.1.min..js"></script>
+    <script src="<?php echo base_url() ?>assets/js/jquery3.7.1.min.js"></script>
     <script src="<?php echo base_url() ?>assets/js/bootstrap.bundle.min.js"></script>
     <script src="<?php echo base_url() ?>assets/js/aos.js"></script>
-    <script src="<?php echo base_url() ?>assets/js/jquery.fancybox.min.js"></script>
+    <!-- <script src="<?php echo base_url() ?>assets/js/jquery.fancybox.min.js"></script> -->
     <script src="<?php echo base_url() ?>assets/js/owl.carousel.js"></script>
     <script src="<?php echo base_url() ?>assets/js/main.js"></script>
 </body>
