@@ -59,8 +59,12 @@
                         </div>
                         <div class="campaign-actions col-md-2">
                             <p>Budget: $<?php echo number_format($campaign->budget, 2); ?></p>
+                            <?php if ($campaign->status == 0): ?>
+                                <a href="<?php echo base_url('user/payments/' . $campaign->payment_id); ?>" class="btn bg_btn">Pay now</a>
+                            <?php else: ?>
+                                <span class="btn border_btn">Paid</span>
+                            <?php endif; ?>
 
-                            <a href="<?php echo base_url('user/payments/' . $campaign->payment_id); ?>" class="btn bg_btn">Pay now</a>
                         </div>
                     </div>
                 <?php endforeach; ?>
