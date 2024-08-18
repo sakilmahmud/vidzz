@@ -7,7 +7,7 @@
             <table id="payment" class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>Payment ID</th>
+                        <th>ID</th>
                         <th>Campaign</th>
                         <th>Amount</th>
                         <th>Tnx</th>
