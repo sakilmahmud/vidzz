@@ -11,6 +11,9 @@ $route['user/register']         = 'authController/register_user';
 
 $route['verify']                = 'authController/verify';
 
+$route['google-login']          = 'authController/google_login';
+$route['auth/google_callback']  = 'authController/google_callback';
+
 
 $route['login']                 = 'authController/login';
 $route['logout']                = 'authController/logout';

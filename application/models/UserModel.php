@@ -400,4 +400,17 @@ class UserModel extends CI_Model
         $this->db->where('id', $user_id);
         $this->db->update('users', ['is_verified' => 1, 'verification_token' => null]);
     }
+
+    public function checkUser($data)
+    {
+        $this->db->where('oauth_provider', $data['oauth_provider']);
+        $this->db->where('oauth_uid', $data['oauth_uid']);
+        $query = $this->db->get('users');
+
+        if ($query->num_rows() > 0) {
+            return $query->row_array();
+        } else {
+            return false;
+        }
+    }
 }

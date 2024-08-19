@@ -48,7 +48,7 @@
                                     <?php echo $this->session->flashdata('success'); ?>
                                 </div>
                             <?php endif; ?>
-                            <a href="#" class="google_continue"><img src="<?php echo base_url() ?>assets/images/google_icon.png" class="img-fluid" alt="google_logo">Continue with Google</a>
+                            <a href="<?php echo base_url('google-login'); ?>" class="google_continue"><img src="<?php echo base_url() ?>assets/images/google_icon.png" class="img-fluid" alt="google_logo">Continue with Google</a>
                             <div class="or">Or</div>
                             <form action="<?php echo base_url('user/register'); ?>" method="post" id="register_form" name="register" class="register_frm">
 

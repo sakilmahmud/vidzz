@@ -53,7 +53,7 @@
               <div class="user_img">
                 <img src="<?php echo base_url() ?>assets/images/user.png" class="img-fluid" alt="user_img">
               </div>
-              <a href="#" class="google_continue"><img src="<?php echo base_url() ?>assets/images/google_icon.png" class="img-fluid" alt="google_logo">Continue with Google</a>
+              <a href="<?php echo base_url('google-login'); ?>" class="google_continue"><img src="<?php echo base_url() ?>assets/images/google_icon.png" class="img-fluid" alt="google_logo">Continue with Google</a>
               <div class="or">Or</div>
               <form method="post" action="<?php echo base_url('login') ?>" id="login_form" name="login" class="login_frm">
                 <?php if (!empty($error)) : ?>

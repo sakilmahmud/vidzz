@@ -1,4 +1,8 @@
 <?php
+
+/* use Google_Client;
+use Google_Service_Oauth2; */
+
 class AuthController extends CI_Controller
 {
 
@@ -6,9 +10,18 @@ class AuthController extends CI_Controller
     {
         parent::__construct();
 
+        //require_once APPPATH . '../vendor/autoload.php';
         // Load form validation library
         $this->load->library('form_validation');
         $this->load->model('UserModel');
+
+        // Initialize Google Client
+        /* $this->google_client = new Google_Client();
+        $this->google_client->setClientId('117345918705-0ncelk4rt4c9me9kd5kqqukrg6ov09el.apps.googleusercontent.com');
+        $this->google_client->setClientSecret('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');
+        $this->google_client->setRedirectUri(base_url('auth/google_callback'));
+        $this->google_client->addScope('email');
+        $this->google_client->addScope('profile'); */
     }
 
     public function index()
@@ -185,7 +198,7 @@ class AuthController extends CI_Controller
 
         $this->load->library('email');
 
-        $this->email->from('noreply@yourdomain.com', 'Your Application Name');
+        $this->email->from('sakilmm26@gmail.com', 'Vedzzy');
         $this->email->to($email);
         $this->email->subject($subject);
         $this->email->message($message);
@@ -215,5 +228,54 @@ class AuthController extends CI_Controller
         $this->session->unset_userdata('role');
         $this->session->unset_userdata('user_id');
         redirect('login'); // Change 'login' to the desired destination after logout
+    }
+
+    // Google Login/Signup
+    public function google_login()
+    {
+        $login_url = $this->google_client->createAuthUrl();
+        redirect($login_url);
+    }
+
+    // Google Callback
+    public function google_callback()
+    {
+        if ($this->input->get('code')) {
+            $token = $this->google_client->fetchAccessTokenWithAuthCode($this->input->get('code'));
+            $this->google_client->setAccessToken($token);
+
+            $google_service = new Google_Service_Oauth2($this->google_client);
+            $google_user_info = $google_service->userinfo->get();
+
+            $user_data = array(
+                'oauth_provider' => 'google',
+                'oauth_uid' => $google_user_info->id,
+                'first_name' => $google_user_info->givenName,
+                'last_name' => $google_user_info->familyName,
+                'email' => $google_user_info->email,
+                'picture' => $google_user_info->picture,
+                'is_verified' => 1,  // Google accounts are already verified
+            );
+
+            $user = $this->UserModel->checkUser($user_data);
+
+            if ($user) {
+                $this->session->set_userdata('user_id', $user['id']);
+                $this->session->set_userdata('full_name', $user['full_name']);
+                $this->session->set_userdata('role', $user['user_role']);
+
+                redirect('dashboard');
+            } else {
+                $user_id = $this->UserModel->insert_user($user_data);
+                $this->session->set_userdata('user_id', $user_id);
+                $this->session->set_userdata('full_name', $user_data['first_name'] . ' ' . $user_data['last_name']);
+                $this->session->set_userdata('role', 'user');
+
+                redirect('dashboard');
+            }
+        } else {
+            $this->session->set_flashdata('error', 'Something went wrong, please try again.');
+            redirect('login');
+        }
     }
 }
