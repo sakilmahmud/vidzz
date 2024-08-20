@@ -195,7 +195,20 @@ class AuthController extends CI_Controller
         $message = "<p>Please click the link below to verify your email address:</p>";
         $message .= "<a href='" . $verification_link . "'>Verify Email</a>";
 
-        $this->load->library('email');
+
+        $config = array(
+            'protocol' => 'smtp',
+            'smtp_host' => 'smtp.hostinger.com',
+            'smtp_port' => 465,
+            'smtp_user' => 'noreply@softechplaza.com', // Replace with your email address
+            'smtp_pass' => 'SP@noreply2025', // Replace with your email password
+            'mailtype'  => 'html',
+            'charset'   => 'iso-8859-1',
+            'wordwrap'  => TRUE,
+            'newline'   => "\r\n" // Required for some mail servers
+        );
+
+        $this->load->library('email', $config);
 
         $this->email->from('noreply@softechplaza.com', 'Vedzzy :: Registration');
         $this->email->to($email);
