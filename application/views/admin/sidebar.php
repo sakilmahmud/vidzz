@@ -22,18 +22,6 @@
       </div>
     </div>
 
-    <!-- SidebarSearch Form -->
-    <div class="form-inline">
-      <div class="input-group" data-widget="sidebar-search">
-        <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-        <div class="input-group-append">
-          <button class="btn btn-sidebar">
-            <i class="fas fa-search fa-fw"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
     <!-- Sidebar Menu -->
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -45,6 +33,27 @@
             <p>Dashboard</p>
           </a>
         </li>
+
+        <li class="nav-item">
+          <a href="<?php echo base_url('admin/users'); ?>" class="nav-link <?php echo ($activePage === 'users') ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-cog"></i>
+            <p>Users</p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="<?php echo base_url('admin/countries'); ?>" class="nav-link <?php echo ($activePage === 'countries') ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-flag"></i>
+            <p>Countries</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="<?php echo base_url('admin/price_wise_view'); ?>" class="nav-link <?php echo ($activePage === 'price_wise_view') ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-dollar-sign"></i>
+            <p>Price Wise View</p>
+          </a>
+        </li>
+
 
         <li class="nav-item">
           <a href="<?php echo base_url('admin/settings'); ?>" class="nav-link <?php echo ($activePage === 'settings') ? 'active' : ''; ?>">

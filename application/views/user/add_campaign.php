@@ -42,10 +42,7 @@
                 <?php endif; ?>
 
                 <?php if (isset($videoDetails) && !empty($videoDetails)) : ?>
-                    <pre>
-                            <?php //echo print_r($videoDetails); //$videoDetails['items'][0]['snippet']['title'];
-                            ?>
-                        </pre>
+
                     <div class="col-lg-4">
                         <div class="youtube_img_area">
                             <div class="thumb_section">
@@ -129,15 +126,28 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 mt-5">
-                                        <!-- <div class="compaign_type_area">
-                                            <p class="">What do you want besides views?</p>
-                                            <div class="btn_area">
-                                                <a href="javascript:void(0)" class="btn btn-outline-info view_type">Subscribers</a>
-                                                <a href="javascript:void(0)" class="btn btn-outline-info view_type">Like</a>
-                                                <input type="hidden" name="campaign_type" id="campaignType" value="Subscribers">
-                                            </div>
-                                        </div> -->
-                                        <button type="submit" class="create_campaign btn bg_btn text-white">Create Campaign</button>
+                                        <div class="country_area">
+                                            <p>Category</p>
+                                            <select name="category_id" class="form-control choose_country" id="category_id">
+                                                <option value="">Select Category</option>
+                                                <option value="1">Vloggers</option>
+                                                <option value="2">Gamers</option>
+                                                <option value="3">Motivatonal</option>
+                                                <option value="4">Artist</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 mt-5">
+                                        <a href="<?php echo base_url('user/dashboard'); ?>" class="btn bg_btn text-white">Back</a>
+                                    </div>
+                                    <div class="col-md-6 mt-5">
+                                        <?php /*  if (isset($payment_id)) : ?>
+                                            <a href="<?php echo base_url('user/payments/' . $payment_id); ?>" class="btn bg_btn">Pay now</a>
+                                        <?php else :  */ ?>
+                                        <button type="submit" class="btn bg_btn text-white">Create Campaign</button>
+                                        <?php //endif; 
+                                        ?>
+
                                     </div>
                                 </div>
                                 <input type="hidden" name="video_id" value="<?php echo $videoDetails['items'][0]['id']; ?>">

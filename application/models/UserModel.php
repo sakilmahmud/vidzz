@@ -169,165 +169,6 @@ class UserModel extends CI_Model
         return $query->result_array();
     }
 
-    public function getDoctors($status = "")
-    {
-
-        // Logic for retrieving a doctor from the database based on the doctorId
-        $this->db->select('users.*, doctor_details.degree, doctor_details.specialist, doctor_details.availability, doctor_details.photo, doctor_details.banner_photo');
-        $this->db->from('users');
-        $this->db->join('doctor_details', 'users.id = doctor_details.user_id', 'left');
-        $this->db->where('users.user_role', 2);
-        if ($status != "") {
-            $this->db->where('users.status', $status);
-        }
-
-        // Add ORDER BY clause to sort by booking date in descending order
-        $this->db->order_by('users.id', 'desc');
-        $query = $this->db->get();
-
-        return $query->result_array();
-    }
-
-    public function addDoctor($data)
-    {
-
-        // Prepare data for 'users' table
-        $usersTableData = array(
-            'user_role' => 2,
-            'username' => $data['username'],
-            'full_name' => $data['full_name'],
-            'mobile' => $data['mobile'],
-            'password' => $data['password']
-        );
-
-        // Logic for adding a new doctor to the database
-        $this->db->insert('users', $usersTableData);
-
-        // Get the inserted doctor's ID
-        $doctorId = $this->db->insert_id();
-
-        // Prepare data for 'doctor_details' table
-        $doctorDetailsData = array(
-            'user_id' => $doctorId,
-            'degree' => $data['degree'], // Replace 'degree' with the actual form field name for the doctor's degree
-            'specialist' => $data['specialist'], // Replace 'specialist' with the actual form field name for the doctor's specialist
-            'availability' => implode(',', $data['availability']), // Replace 'availability' with the actual form field name for the doctor's availability
-            'photo' => $data['photo'], // Replace this with the actual path to the uploaded doctor's photo
-            'banner_photo' => $data['banner_photo'], // Replace this with the actual path to the uploaded doctor's photo
-            // Add other relevant data
-        );
-
-        // Insert the doctor details into the 'doctor_details' table
-        $this->db->insert('doctor_details', $doctorDetailsData);
-    }
-
-    public function updateDoctor($doctorId, $data)
-    {
-
-        // Prepare data for 'users' table
-        $usersTableData = array(
-            'username' => $data['username'],
-            'full_name' => $data['full_name'],
-            'mobile' => $data['mobile']
-        );
-
-        // Logic for updating a doctor in the database
-        $this->db->where('id', $doctorId);
-        $this->db->update('users', $usersTableData);
-
-        // Prepare data for 'doctor_details' table update
-        $doctorDetailsData = array(
-            'user_id' => $doctorId,
-            'degree' => $data['degree'], // Replace 'degree' with the actual form field name for the doctor's degree
-            'specialist' => $data['specialist'], // Replace 'specialist' with the actual form field name for the doctor's specialist
-            'availability' => implode(',', $data['availability']), // Replace 'availability' with the actual form field name for the doctor's availability
-            'photo' => $data['photo'], // Replace this with the actual path to the uploaded doctor's photo
-            'banner_photo' => $data['banner_photo'], // Replace this with the actual path to the uploaded doctor's photo
-            // Add other relevant data
-        );
-
-        // Update the doctor details in the 'doctor_details' table
-        $this->db->where('user_id', $doctorId);
-        $this->db->update('doctor_details', $doctorDetailsData);
-    }
-
-    public function getDoctorById($doctorId)
-    {
-        // Logic for retrieving a doctor from the database based on the doctorId
-        $this->db->select('users.*, doctor_details.degree, doctor_details.specialist, doctor_details.availability, doctor_details.photo, doctor_details.banner_photo');
-        $this->db->from('users');
-        $this->db->join('doctor_details', 'users.id = doctor_details.user_id', 'left');
-        $this->db->where('users.id', $doctorId);
-        $query = $this->db->get();
-
-        return $query->row_array();
-    }
-
-    public function deleteDoctor($doctorId)
-    {
-        // Logic for deleting a doctor from the database based on the doctorId
-
-        // Delete the doctor details from the 'doctor_details' table
-        $this->db->where('user_id', $doctorId);
-        $this->db->delete('doctor_details');
-
-        // Delete the doctor from the 'users' table
-        $this->db->where('id', $doctorId);
-        $this->db->delete('users');
-    }
-
-    public function getPatients($added_by = "")
-    {
-        $this->db->select('patients.*, IF(patients.added_by = 0, "Self", users.full_name) AS added_by_name');
-        $this->db->select('CONCAT("AP", LPAD(patients.id, 5, "0")) AS card_number', FALSE); // Generate the card number
-        $this->db->from('users AS patients');
-        $this->db->join('users', 'patients.added_by = users.id', 'left');
-        $this->db->where('patients.user_role', 3); // Assuming user_role 3 represents patients
-
-        if ($added_by != "") {
-            $this->db->where('patients.added_by', $added_by);
-        }
-        // Add ORDER BY clause to sort by booking date in descending order
-        $this->db->order_by('patients.id', 'desc');
-        $query = $this->db->get();
-        //echo $this->db->last_query(); die;
-
-        if ($query->num_rows() > 0) {
-            return $query->result_array();
-        } else {
-            return array();
-        }
-    }
-
-
-    public function addPatient($data)
-    {
-        // Logic for adding a new patient to the database
-        $data['user_role'] = 3; // Set the user role as "patient"
-        $this->db->insert('users', $data);
-    }
-
-    public function updatePatient($patientId, $data)
-    {
-        // Logic for updating a patient in the database
-        $this->db->where('id', $patientId);
-        $this->db->update('users', $data);
-    }
-
-    public function getPatientById($patientId)
-    {
-        // Logic for retrieving a patient from the database based on the patientId
-        $query = $this->db->get_where('users', array('id' => $patientId));
-        return $query->row_array();
-    }
-
-    public function deletePatient($patientId)
-    {
-        // Logic for deleting a patient from the database based on the patientId
-        $this->db->where('id', $patientId);
-        $this->db->delete('users');
-    }
-
     public function isUsernameUnique($username, $userId)
     {
         // Check if the username exists in the database for any user except the current user
@@ -412,5 +253,16 @@ class UserModel extends CI_Model
         } else {
             return false;
         }
+    }
+    public function getUserListWithDetails()
+    {
+        // Select required fields and concatenate first name and last name
+        $this->db->select('*, CONCAT(first_name, " ", last_name) as full_name');
+        $this->db->from('users');
+        $this->db->where('status !=', 3); // Exclude deleted users
+        $this->db->where('user_role !=', 1); // Exclude admin users
+        $this->db->order_by('id', 'desc');
+        $query = $this->db->get();
+        return $query->result_array();
     }
 }

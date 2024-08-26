@@ -58,7 +58,7 @@ class UserController extends CI_Controller
     public function index()
     {
 
-        if ($this->session->userdata('username')) {
+        if ($this->session->userdata('user_id')) {
             redirect('user/dashboard');
         }
     }
@@ -72,6 +72,42 @@ class UserController extends CI_Controller
         $this->load->view('user/dashboard', $data);
         $this->load->view('user/footer');
     }
+
+    public function get_video_details()
+    {
+        $youtube_url = $this->input->post('youtube_url');
+
+        // Initialize video details array
+        $videoDetails = [];
+
+        if ($youtube_url) {
+            // Extract video ID or channel ID
+            $videoData = $this->YouTubeModel->extractVideoIdOrChannelId($youtube_url);
+
+            if ($videoData) {
+                /* echo "<pre>";
+                print_r($videoData);
+                die; */
+                if ($videoData['type'] === 'video') {
+                    // Single video
+                    $videoDetails[] = $this->YouTubeModel->getVideoDetails($videoData['id']);
+                } elseif ($videoData['type'] === 'channel') {
+                    // Channel link - get latest four videos
+                    $videoDetails = $this->YouTubeModel->getLatestVideos($videoData['id'], 4);
+                }
+            }
+        }
+
+        /* echo "<pre>";
+        print_r($videoDetails);
+        die; */
+
+
+        // Load a partial view with the video details
+        $this->load->view('user/preview_videos', ['videoDetails' => $videoDetails]);
+    }
+
+
 
     public function all_campaigns()
     {
@@ -106,23 +142,34 @@ class UserController extends CI_Controller
         $data['activePage'] = 'add_campaign';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $url = $this->input->post('youtube_url');
-            $videoId = $this->extractVideoId($url);
+            //$url = $this->input->post('youtube_url');
+            //$idData = $this->YouTubeModel->extractVideoIdOrChannelId($url);
+            $video_id = $this->input->post('video_id');
+            /* echo $video_id;
+            die; */
+            if ($video_id) {
+                $this->session->set_userdata('video_id', $video_id);
 
-            if ($videoId) {
-                $data['videoDetails'] = $this->YouTubeModel->getVideoDetails($videoId);
-                /* echo "<pre>";
-                print_r($data);
-                die; */
+                $data['videoDetails'] = $this->YouTubeModel->getVideoDetails($video_id);
             } else {
-                $data['error'] = 'Invalid YouTube URL';
+                $data['error'] = 'Invalid Video ID';
             }
+        } elseif ($this->session->userdata('video_id')) {
+            $video_id = $this->session->userdata('video_id');
+            $data['videoDetails'] = $this->YouTubeModel->getVideoDetails($video_id);
+        } else {
+            $data['videoDetails'] = [];
+        }
+
+        if ($this->session->userdata('payment_id')) {
+            $data['payment_id'] = $this->session->userdata('payment_id');
         }
 
         $this->load->view('user/header', $data);
         $this->load->view('user/add_campaign', $data);
         $this->load->view('user/footer');
     }
+
 
     public function create_campaign()
     {
@@ -170,6 +217,9 @@ class UserController extends CI_Controller
         $this->PaymentModel->insert_payment($payment_data);
 
         $payment_id = $this->db->insert_id(); // Get the last inserted payment ID
+
+        $this->session->set_userdata('payment_id', $payment_id);
+
         redirect("user/payments/$payment_id"); // Redirect to the payments view
     }
 
@@ -189,12 +239,6 @@ class UserController extends CI_Controller
         $this->load->view('user/header', $data);
         $this->load->view('user/payments', $data);
         $this->load->view('user/footer');
-    }
-
-    private function extractVideoId($url)
-    {
-        parse_str(parse_url($url, PHP_URL_QUERY), $params);
-        return $params['v'] ?? null;
     }
 
     public function payment_history()

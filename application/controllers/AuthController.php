@@ -33,6 +33,9 @@ class AuthController extends CI_Controller
         // Initialize the error message
         $data['error'] = '';
 
+        /* print_r($this->session->userdata);
+        die; */
+
         // Check if the user is already logged in
         if ($this->session->userdata('user_id')) {
             $this->redirectUserByRole($this->session->userdata('role'));
@@ -58,6 +61,9 @@ class AuthController extends CI_Controller
                     if (!password_verify($password, $user['password'])) {
                         // Invalid password
                         $this->session->set_flashdata('error', 'Invalid password.');
+                    } elseif ($user['status'] != 1) {
+                        // User is not verified
+                        $this->session->set_flashdata('error', 'Your account is not active. Please contact our help centre.');
                     } elseif (!$user['is_verified']) {
                         // User is not verified
                         $this->session->set_flashdata('error', 'Your account is not verified. Please check your email to verify your account.');
@@ -95,6 +101,8 @@ class AuthController extends CI_Controller
     {
         switch ($role) {
             case 1:
+                redirect('admin/dashboard');
+                break;
             case 2:
             case 4:
             case 5:

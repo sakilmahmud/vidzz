@@ -15,11 +15,11 @@
                     <div class="form_column">
                         <div class="form-group">
                             <label for="first_name">First Name</label>
-                            <input type="text" class="form-control" id="full_name" name="full_name" value="<?php echo set_value('full_name', $user->full_name); ?>">
+                            <input type="text" class="form-control" id="first_name" name="first_name" value="<?php echo set_value('first_name', $user->first_name); ?>">
                         </div>
                         <div class="form-group">
                             <label for="last_name">Last Name</label>
-                            <input type="text" class="form-control" id="full_name" name="full_name" value="<?php echo set_value('full_name', $user->full_name); ?>">
+                            <input type="text" class="form-control" id="last_name" name="last_name" value="<?php echo set_value('last_name', $user->last_name); ?>">
                         </div>
                     </div>
                     <div class="form_column">

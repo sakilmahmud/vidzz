@@ -27,8 +27,29 @@ $route['admin/settings/update'] = 'AdminController/updateSettings';
 $route['admin/password']        = 'AdminController/passwordChange';
 $route['admin/password/update'] = 'AdminController/updatePassword';
 
-/** user routes */
+/** users */
+$route['admin/users']           = 'admin/Users/list';
+$route['admin/users/add']       = 'admin/Users/addUser';
+$route['admin/users/edit/(:num)'] = 'admin/Users/editUser/$1';
+$route['admin/users/delete/(:num)'] = 'admin/Users/deleteUser/$1';
+
+/** countries */
+$route['admin/countries']          = 'admin/Countries/list';
+$route['admin/countries/add']      = 'admin/Countries/addCountry';
+$route['admin/countries/edit/(:num)'] = 'admin/Countries/editCountry/$1';
+$route['admin/countries/delete/(:num)'] = 'admin/Countries/deleteCountry/$1';
+
+/** countries price_wise_view*/
+$route['admin/price_wise_view'] = 'admin/PriceWiseViewController/index';
+$route['admin/price_wise_view/add'] = 'admin/PriceWiseViewController/addPriceWiseView';
+$route['admin/price_wise_view/edit/(:num)'] = 'admin/PriceWiseViewController/editPriceWiseView/$1';
+$route['admin/price_wise_view/delete/(:num)'] = 'admin/PriceWiseViewController/delete/$1';
+
+
+
+/** user dashboard routes */
 $route['user/dashboard']        = 'UserController/dashboard';
+$route['user/get_video_details'] = 'UserController/get_video_details';
 $route['user/campaigns']        = 'UserController/all_campaigns';
 $route['user/add-campaign']     = 'UserController/add_campaign';
 $route['user/create-campaign']  = 'UserController/create_campaign';

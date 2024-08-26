@@ -27,8 +27,9 @@ class AdminController extends CI_Controller
             }
         }
 
+
         // Check if the user is logged in
-        if (!$this->session->userdata('username')) {
+        if (!$this->session->userdata('user_id')) {
             redirect('login'); // Redirect to the login page if not logged in
         }
 
@@ -47,7 +48,7 @@ class AdminController extends CI_Controller
     public function index()
     {
 
-        if ($this->session->userdata('username')) {
+        if ($this->session->userdata('user_id')) {
             redirect('admin/dashboard');
         }
     }

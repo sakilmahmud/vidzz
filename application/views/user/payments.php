@@ -42,9 +42,16 @@
                                     <p>Estimated View Count</p>
                                     <h6><span><?php echo $payment_details->estimated_view; ?></span></h6>
                                 </div>
-                                <button class="paypal-button" onclick="window.location.href='<?php echo base_url('user/pay_with_paypal/' . $payment_details->id); ?>'">
-                                    <i class="fab fa-paypal"></i> PayPal
-                                </button>
+                                <div class="row">
+                                    <div class="col-md-3 mt-4">
+                                        <a href="<?php echo base_url('user/add-campaign'); ?>" class="btn bg_btn text-white">Back</a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="paypal-button" onclick="window.location.href='<?php echo base_url('user/pay_with_paypal/' . $payment_details->id); ?>'">
+                                            <i class="fab fa-paypal"></i> Pay Now
+                                        </button>
+                                    </div>
+                                </div>
 
 
                                 <div class="powered-by">
