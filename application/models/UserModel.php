@@ -265,4 +265,41 @@ class UserModel extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
+
+    public function getUserByEmail($email)
+    {
+        return $this->db->where('email', $email)->get('users')->row_array();
+    }
+
+    public function savePasswordResetToken($user_id, $token)
+    {
+        $this->db->where('id', $user_id)->update('users', ['reset_token' => $token, 'token_created_at' => date('Y-m-d H:i:s')]);
+    }
+
+    public function getUserByResetToken($token)
+    {
+        // Ensure the token is sanitized
+        $token = trim($token);
+
+        // Build the query
+        $this->db->where('reset_token', $token);
+        //$this->db->where('token_created_at >=', date('Y-m-d H:i:s', strtotime('-1 hour')));
+        $query = $this->db->get('users');
+
+        // Debugging: Log the last query
+        log_message('debug', 'Last Query: ' . $this->db->last_query());
+
+        return $query->row_array();
+    }
+
+
+    /* public function updatePassword($user_id, $new_password)
+    {
+        $this->db->where('id', $user_id)->update('users', ['password' => $new_password]);
+    } */
+
+    public function clearPasswordResetToken($user_id)
+    {
+        $this->db->where('id', $user_id)->update('users', ['reset_token' => null, 'token_created_at' => null]);
+    }
 }

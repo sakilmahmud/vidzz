@@ -23,7 +23,7 @@
 <body>
     <header class="full_header fixed-top">
         <div class="container-fluid">
-            <img src="<?php echo base_url() ?>assets/images/logo.png" class="img-fluid logo_img" alt="logo_img">
+            <img src="<?php echo base_url() ?>assets/images/logo.svg" class="img-fluid logo_img" alt="logo_img">
         </div>
     </header>
 

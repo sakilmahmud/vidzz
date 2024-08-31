@@ -60,7 +60,7 @@
                             </div>
                             <div class="view_count">
                                 <p>Estimated View Count</p>
-                                <h6><span id="viewMin">500</span> - <span id="viewMax">600</span></h6>
+                                <h6><span id="viewMin">0</span> - <span id="viewMax">0</span></h6>
                             </div>
                         </div>
                     </div>
@@ -119,10 +119,18 @@
                                     <div class="col-md-6 mt-5">
                                         <div class="country_area">
                                             <p>Target by Country</p>
-                                            <select name="country_id" class="form-control choose_country" id="">
-                                                <option value="1">USA</option>
-                                                <option value="2">INDIA</option>
+                                            <select name="country_id" class="form-control choose_country" id="country_id">
+                                                <option value="">Select Country</option>
+                                                <?php
+                                                if (!empty($available_price_list)) :
+
+                                                    foreach ($available_price_list as $countries) :
+
+                                                        echo '<option value="' . $countries['country_id'] . '">' . $countries['country_name'] . '</option>';
+                                                    endforeach;
+                                                endif; ?>
                                             </select>
+                                            <small class="select_country_error text-danger">*Select any country</small>
                                         </div>
                                     </div>
                                     <div class="col-md-6 mt-5">
@@ -144,7 +152,7 @@
                                         <?php /*  if (isset($payment_id)) : ?>
                                             <a href="<?php echo base_url('user/payments/' . $payment_id); ?>" class="btn bg_btn">Pay now</a>
                                         <?php else :  */ ?>
-                                        <button type="submit" class="btn bg_btn text-white">Create Campaign</button>
+                                        <button type="submit" class="btn bg_btn text-white create_btn" disabled>Create Campaign</button>
                                         <?php //endif; 
                                         ?>
 
@@ -168,6 +176,54 @@
         margin-top: 35px;
     }
 </style>
+<script>
+    <?php
+    if (!empty($available_price_list)) :
+        $price_arr = [];
+        foreach ($available_price_list as $countries) :
+            $price_arr[$countries['country_id']] = array(
+                'country_name' => $countries['country_name'],
+                'price' => $countries['price'],
+                'starting_view' => $countries['starting_view'],
+                'end_view' => $countries['end_view']
+            );
+        endforeach;
+        $price_json = json_encode($price_arr);
+    endif; ?>
+
+    // Corrected: parse the JSON string to a JavaScript object
+    let price_data = <?php echo $price_json; ?>;
+    let baseMinView = 0;
+    let baseMaxView = 1;
+    let sliderPrice = $("#fromSlider").val();
+
+    $(document).on('change', '#country_id', function() {
+        let country_id = $(this).val();
+        if (country_id != "") {
+            $('.select_country_error').hide();
+            $('.create_btn').removeAttr('disabled');
+        } else {
+            $('.select_country_error').show();
+            $('.create_btn').attr('disabled', true);
+        }
+
+        // Access the starting_view using the selected country_id
+        let starting_view = price_data[country_id].starting_view;
+        let end_view = price_data[country_id].end_view;
+
+        baseMinView = starting_view;
+        baseMaxView = end_view;
+        /* $('#viewMin').text(parseInt(sliderPrice) * parseInt(starting_view));
+        $('#viewMax').text(parseInt(sliderPrice) * parseInt(end_view)); */
+        updateSlider(sliderPrice);
+
+        //console.log(starting_view);
+
+        // Do something with the starting_view (e.g., set it in an input field)
+        // $('#some_input_id').val(starting_view);
+    });
+</script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
 <script>
     $(document).ready(function() {

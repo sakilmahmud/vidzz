@@ -1,3 +1,42 @@
+const $fromSlider = $("#fromSlider");
+const $sliderValue = $("#sliderValue");
+const $sliderTooltip = $("#fromSliderTooltip");
+const $viewMin = $("#viewMin");
+const $viewMax = $("#viewMax");
+const $estimatedView = $("#estimatedView");
+const $campaignType = $("#campaignType");
+
+function updateSlider(value) {
+	$fromSlider.val(value);
+	$sliderValue.text(`$${value}`);
+	$sliderTooltip.text(`$${value}`);
+	const percent = ((value - 10) / (1000 - 10)) * 100;
+	updateSliderBackground($fromSlider, percent);
+	const offset = ((percent - 60) / 50) * 20;
+	$sliderTooltip.css("left", `calc(${percent}% - ${offset}px)`);
+	updateViewCount(value);
+}
+
+function updateSliderBackground(slider, percent) {
+	const background = `linear-gradient(to right, rgba(46,64,228,1) 0%, rgba(31,174,255,1) ${percent}%, rgba(202,59,205,1) ${percent}%, #CBD5E1 100%)`;
+	slider.css("background", background);
+}
+
+function updateViewCount(value) {
+	const factor = value / 10;
+	const percentageIncrease = factor * 0.1;
+
+	/* const minView = baseMinView * factor * (1 + percentageIncrease);
+	const maxView = baseMaxView * factor * (1 + percentageIncrease); */
+	console.log("updateViewCount: ", value);
+	const minView = parseInt(value) * parseInt(baseMinView);
+	const maxView = parseInt(value) * parseInt(baseMaxView);
+
+	$viewMin.text(minView.toFixed(0));
+	$viewMax.text(maxView.toFixed(0));
+	$estimatedView.val(`${minView.toFixed(0)} - ${maxView.toFixed(0)}`);
+}
+
 $(document).ready(function () {
 	$(".toggle-password").click(function () {
 		$(this).toggleClass("fa-eye fa-eye-slash");
@@ -56,44 +95,6 @@ $(document).ready(function () {
 		$(".sidebar-contact").addClass("active");
 		$(".logo_area .toggle").removeClass("active");
 	});
-
-	const $fromSlider = $("#fromSlider");
-	const $sliderValue = $("#sliderValue");
-	const $sliderTooltip = $("#fromSliderTooltip");
-	const $viewMin = $("#viewMin");
-	const $viewMax = $("#viewMax");
-	const $estimatedView = $("#estimatedView");
-	const $campaignType = $("#campaignType");
-
-	function updateSlider(value) {
-		$fromSlider.val(value);
-		$sliderValue.text(`$${value}`);
-		$sliderTooltip.text(`$${value}`);
-		const percent = ((value - 10) / (1000 - 10)) * 100;
-		updateSliderBackground($fromSlider, percent);
-		const offset = ((percent - 60) / 50) * 20;
-		$sliderTooltip.css("left", `calc(${percent}% - ${offset}px)`);
-		updateViewCount(value);
-	}
-
-	function updateSliderBackground(slider, percent) {
-		const background = `linear-gradient(to right, rgba(46,64,228,1) 0%, rgba(31,174,255,1) ${percent}%, rgba(202,59,205,1) ${percent}%, #CBD5E1 100%)`;
-		slider.css("background", background);
-	}
-
-	function updateViewCount(value) {
-		const baseMinView = 500;
-		const baseMaxView = 600;
-		const factor = value / 10;
-		const percentageIncrease = factor * 0.1;
-
-		const minView = baseMinView * factor * (1 + percentageIncrease);
-		const maxView = baseMaxView * factor * (1 + percentageIncrease);
-
-		$viewMin.text(minView.toFixed(0));
-		$viewMax.text(maxView.toFixed(0));
-		$estimatedView.val(`${minView.toFixed(0)} - ${maxView.toFixed(0)}`);
-	}
 
 	$fromSlider.on("input", function () {
 		const value = $(this).val();

@@ -1,76 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aayan Pharmacy</title>
-    <!-- Add Bootstrap CSS link here -->
-    <link rel="stylesheet" href="<?php echo base_url('assets/frontend/css/bootstrap.min.css') ?>">
-    <link rel="stylesheet" href="<?php echo base_url('assets/frontend/css/styles.css') ?>">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
-    <!-- Add Bootstrap JS and jQuery links here -->
-    <script src="<?php echo base_url('assets/frontend/js/jquery-3.5.1.min.js') ?>"></script>
-    <script src="<?php echo base_url('assets/frontend/js/bootstrap.bundle.min.js') ?>"></script>
+    <title><?php echo $meta_title; ?></title>
+    <meta name="description" content="<?php echo $meta_descriptions; ?>" />
+    <link rel="stylesheet" href="<?php echo base_url() ?>assets/fontawesome-free-6.5.2-web/css/all.min.css">
+    <link rel="stylesheet" href="<?php echo base_url() ?>assets/css/animate.min.css">
+    <link rel="stylesheet" href="<?php echo base_url() ?>assets/css/aos.css">
+    <link rel="stylesheet" href="<?php echo base_url() ?>assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?php echo base_url() ?>assets/css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="<?php echo base_url() ?>assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="<?php echo base_url() ?>assets/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="<?php echo base_url() ?>assets/css/style.css">
 </head>
 
 <body>
-    <!-- Header -->
     <header>
-        <!-- Add your app's logo here -->
-        <div class="logo_area">
-            <a class="logo" href="<?php echo base_url('/') ?>"><img class="card-img-top" src="<?php echo base_url('assets/frontend/images/logo.png') ?>" alt="Aayan Pharmacy"></a>
-            <div class="my_account">
-                <a class="btn btn-dark" href="<?php echo base_url('login') ?>">Login</a>
-            </div>
-        </div>
-
-
-        <!-- Navigation -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light hidden-phone">
-            <button class="navbar-toggler" type="button" id="mobile-toggle-button">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="overlay" id="mobile-menu-overlay"></div>
-            <div class="mobile-menu" id="mobile-menu">
-                <a class="logo-menu" href="<?php echo base_url(); ?>"><img class="card-img-top" src="<?php echo base_url('assets/frontend/images/logo_small.png') ?>" alt="Aayan Pharmacy"></a>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?php echo base_url(); ?>">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Shop</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Prescriptions</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Offers</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?php echo base_url('bookAppointment') ?>">Book an Appointment</a>
-                    </li>
-                    <?php if ($this->session->userdata('user_id')) : ?>
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="<?php echo base_url(); ?>"><img src="<?php echo base_url() ?>assets/images/logo.svg" class="img-fluid logo_img" alt="Vedzzy"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo base_url('user/dashboard') ?>">Login</a>
+                            <a class="nav-link text-uppercase fw-medium" href="<?php echo base_url('register') ?>">Add Video</a>
                         </li>
-                    <?php else : ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo base_url('login') ?>">Login</a>
+                            <a class="nav-link text-uppercase fw-medium" href="<?php echo base_url('contact') ?>">Contact</a>
                         </li>
-                    <?php endif; ?>
-                </ul>
-                <button class="close-button" id="mobile-close-button">&times;</button>
-            </div>
-            <div class="search-bar">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for medicines...">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
-                    </div>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link text-uppercase fw-medium" href="#">Blog</a>
+                        </li> -->
+                        <?php if ($this->session->userdata('user_id')) : ?>
+                            <li class="nav-item">
+                                <a class="nav-link text-uppercase fw-medium btn bg_btn text-white px-3" href="<?php echo base_url('user/dashboard'); ?>">Dashboard</a>
+                            </li>
+                        <?php else : ?>
+                            <li class="nav-item">
+                                <a class="nav-link text-uppercase fw-medium btn border_btn" href="<?php echo base_url('login'); ?>">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-uppercase text-white fw-medium btn bg_btn" href="<?php echo base_url('register'); ?>">Register</a>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+
                 </div>
             </div>
         </nav>

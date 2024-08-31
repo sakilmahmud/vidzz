@@ -15,6 +15,8 @@ class UserController extends CI_Controller
         parent::__construct();
 
         $this->load->model('UserModel');
+        // Load Mailer library
+        $this->load->library('mailer');
         // Load form validation library
         $this->load->library('form_validation');
 
@@ -45,6 +47,7 @@ class UserController extends CI_Controller
         $this->load->model('YouTubeModel');
         $this->load->model('CampaignModel');
         $this->load->model('PaymentModel');
+        $this->load->model('PriceWiseViewModel');
 
         $this->load->helper('custom_helper', 'url');
 
@@ -165,6 +168,10 @@ class UserController extends CI_Controller
             $data['payment_id'] = $this->session->userdata('payment_id');
         }
 
+        $data['available_price_list'] = $this->PriceWiseViewModel->getAll();
+        /* echo "<pre>";
+        print_r($data);
+        die; */
         $this->load->view('user/header', $data);
         $this->load->view('user/add_campaign', $data);
         $this->load->view('user/footer');
@@ -197,6 +204,7 @@ class UserController extends CI_Controller
             'estimated_view' => $this->input->post('estimated_view'),
             'budget' => $this->input->post('budget'),
             'country_id' => $this->input->post('country_id'),
+            'campaign_type' => $this->input->post('category_id'),
             'created_at' => date('Y-m-d H:i:s')
         ];
 
@@ -221,6 +229,22 @@ class UserController extends CI_Controller
         $this->session->set_userdata('payment_id', $payment_id);
 
         redirect("user/payments/$payment_id"); // Redirect to the payments view
+    }
+
+    public function test_send_email()
+    {
+
+        // Email details
+        $to = 'sakilmm26@gmail.com';
+        $subject = 'Test Email';
+        $message = '<p>This is a test email sent from CodeIgniter using PHPMailer.</p>';
+
+        // Send email
+        if ($this->mailer->sendMail($to, $subject, $message)) {
+            echo 'Email sent successfully.';
+        } else {
+            echo 'Email failed to send.';
+        }
     }
 
     public function payments($payment_id)

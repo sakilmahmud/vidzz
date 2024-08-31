@@ -13,6 +13,8 @@ class AuthController extends CI_Controller
         // Load form validation library
         $this->load->library('form_validation');
         $this->load->model('UserModel');
+        // Load Mailer library
+        $this->load->library('mailer');
 
         // Initialize Google Client
         /* $this->google_client = new Google_Client();
@@ -184,9 +186,12 @@ class AuthController extends CI_Controller
             // Insert user data into the database
             if ($this->UserModel->insert_user($user_data)) {
                 // Send verification email
-                $this->_send_verification_email($user_data['email'], $verification_token);
-
-                $this->session->set_flashdata('success', 'Registration successful. Please check your email for verification.');
+                $send_mail = $this->_send_verification_email($user_data['email'], $verification_token);
+                if ($send_mail) {
+                    $this->session->set_flashdata('success', 'Registration successful. Please check your email for verification.');
+                } else {
+                    $this->session->set_flashdata('success', 'Registration successful. Failed to send verification link. Please click here to resend it.');
+                }
                 redirect('login');
             } else {
                 $this->session->set_flashdata('error', 'An error occurred. Please try again.');
@@ -203,27 +208,13 @@ class AuthController extends CI_Controller
         $message = "<p>Please click the link below to verify your email address:</p>";
         $message .= "<a href='" . $verification_link . "'>Verify Email</a>";
 
-
-        $config = array(
-            'protocol' => 'smtp',
-            'smtp_host' => 'smtp.hostinger.com',
-            'smtp_port' => 465,
-            'smtp_user' => 'noreply@softechplaza.com', // Replace with your email address
-            'smtp_pass' => 'SP@noreply2025', // Replace with your email password
-            'mailtype'  => 'html',
-            'charset'   => 'iso-8859-1',
-            'wordwrap'  => TRUE,
-            'newline'   => "\r\n" // Required for some mail servers
-        );
-
-        $this->load->library('email', $config);
-
-        $this->email->from('noreply@softechplaza.com', 'Vedzzy :: Registration');
-        $this->email->to($email);
-        $this->email->subject($subject);
-        $this->email->message($message);
-
-        $this->email->send();
+        // Send email
+        if ($this->mailer->sendMail($email, $subject, $message)) {
+            $isSent = true;
+        } else {
+            $isSent = false;
+        }
+        return $isSent;
     }
 
     public function verify()
@@ -297,5 +288,115 @@ class AuthController extends CI_Controller
             $this->session->set_flashdata('error', 'Something went wrong, please try again.');
             redirect('login');
         }
+    }
+
+    /** forgot password */
+    // Handle forgot password request
+    public function forgot_password()
+    {
+        // Set validation rules
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+
+        // If validation fails
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('forgot_password');
+        } else {
+            $email = $this->input->post('email');
+            $user = $this->UserModel->getUserByEmail($email);
+
+            if ($user) {
+                // Generate password reset token
+                $reset_token = bin2hex(random_bytes(50));
+
+                // Save the token to the database
+                $this->UserModel->savePasswordResetToken($user['id'], $reset_token);
+
+                // Send password reset email
+                $this->_send_password_reset_email($email, $reset_token);
+                $this->session->set_flashdata('success', 'A password reset link has been sent to your email.');
+                redirect('forgot-password');
+            } else {
+                $this->session->set_flashdata('error', 'No account found with that email.');
+                $this->load->view('forgot_password');
+            }
+        }
+    }
+
+    // Handle password reset request
+    public function reset_password()
+    {
+        $token = $this->input->get('token');
+        $user = $this->UserModel->getUserByResetToken($token);
+
+
+        if ($user) {
+            // Set validation rules
+            $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
+            $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
+
+            // If validation fails
+            if ($this->form_validation->run() == FALSE) {
+                $data['token'] = $token;
+                $this->load->view('reset_password', $data);
+            } else {
+                // Update user's password
+                $new_password = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
+                $this->UserModel->updatePassword($user['id'], $new_password);
+
+                // Clear the reset token
+                $this->UserModel->clearPasswordResetToken($user['id']);
+
+                $this->session->set_flashdata('success', 'Your password has been reset. You can now login.');
+                redirect('login');
+            }
+        } else {
+            $this->session->set_flashdata('error', 'Invalid or expired reset token.');
+            redirect('forgot-password');
+        }
+    }
+
+    public function reset_password_submit()
+    {
+        $token = $this->input->post('token');
+
+        // Set validation rules
+        $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
+        $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
+
+        // If validation fails
+        if ($this->form_validation->run() == FALSE) {
+            $data['token'] = $token;
+            $this->load->view('reset_password', $data);
+        } else {
+
+            $user = $this->UserModel->getUserByResetToken($token);
+            if ($user) {
+                // Update user's password
+                $new_password = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
+                $this->UserModel->updatePassword($user['id'], $new_password);
+
+                // Clear the reset token
+                $this->UserModel->clearPasswordResetToken($user['id']);
+
+                $this->session->set_flashdata('success', 'Your password has been reset. You can now login.');
+                redirect('login');
+            } else {
+                $this->session->set_flashdata('error', 'Invalid or expired reset token.');
+                redirect('forgot-password');
+            }
+        }
+    }
+
+    // Send password reset email
+    private function _send_password_reset_email($email, $token)
+    {
+        $reset_link = base_url('reset-password?token=' . $token);
+
+        $subject = "Password Reset Request";
+        $message = "<p>Please click the link below to reset your password:</p>";
+        $message .= "<a href='" . $reset_link . "'>Reset Password</a>";
+
+        // Send email
+        return $this->mailer->sendMail($email, $subject, $message);
     }
 }

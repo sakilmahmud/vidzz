@@ -5,6 +5,10 @@ $route['default_controller']    = 'home';
 $route['404_override']          = '';
 $route['translate_uri_dashes']  = FALSE;
 
+$route['contact']               = 'Home/contact';
+$route['terms']                 = 'Home/terms';
+$route['privacy']               = 'Home/privacy';
+
 /** Authentication */
 $route['register']              = 'authController/register';
 $route['user/register']         = 'authController/register_user';
@@ -17,6 +21,11 @@ $route['auth/google_callback']  = 'authController/google_callback';
 
 $route['login']                 = 'authController/login';
 $route['logout']                = 'authController/logout';
+
+$route['forgot-password']       = 'authController/forgot_password';
+$route['reset-password']        = 'authController/reset_password';
+$route['reset-password-submit'] = 'authController/reset_password_submit';
+
 
 /** Admin Routes */
 $route['admin']                 = 'AdminController/index';
@@ -49,6 +58,7 @@ $route['admin/price_wise_view/delete/(:num)'] = 'admin/PriceWiseViewController/d
 
 /** user dashboard routes */
 $route['user/dashboard']        = 'UserController/dashboard';
+$route['user/mail_test']        = 'UserController/test_send_email';
 $route['user/get_video_details'] = 'UserController/get_video_details';
 $route['user/campaigns']        = 'UserController/all_campaigns';
 $route['user/add-campaign']     = 'UserController/add_campaign';

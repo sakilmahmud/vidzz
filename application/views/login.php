@@ -66,7 +66,7 @@
                 </div>
                 <div class="form-group">
                   <label>Password</label>
-                  <a href="<?php echo base_url('forgot') ?>" class="forgot_pass">Forgot Password</a>
+                  <a href="<?php echo base_url('forgot-password') ?>" class="forgot_pass">Forgot Password</a>
                   <input type="password" placeholder="Password" name="password" class="form-control" class="pass">
                   <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                   <?php echo form_error('password', '<div class="error">', '</div>'); ?>

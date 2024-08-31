@@ -925,9 +925,8 @@ header .nav-link {
 }
 
 .menu_admin_data {
-    position: absolute;
-    right: 15px;
-    top: 15px;
+	position: absolute;
+	right: 0;
 }
 .profile {
 	position: relative;
@@ -1068,7 +1067,6 @@ header .nav-link {
 	background: #f4ecf6;
 	height: 100vh;
 	box-shadow: 0px -10px 40px rgba(0, 0, 0, 0.12);
-	padding: 15px;
 }
 .promote_video_center {
 	padding: 0px 100px;
@@ -1536,9 +1534,6 @@ input[type="range"] {
 	margin-right: 15px;
 	border-radius: 50%;
 }
-.choose_content_single_right {
-    width: 90%;
-}
 .choose_content_single_left img {
 	width: 30px;
 }
@@ -1749,213 +1744,16 @@ input[type="range"] {
 	font-size: 20px;
 }
 
-.campaign-item .campaign-info{display: block;}
-.campaign-info-box{display: flex;}
-.campaign-info-box-left{margin-right: 15px;min-width: 200px;}
-
-
-
-/*Payment Page*/
-
-.payment-container {
-	background-color: #fff;
-	border-radius: 10px;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	padding: 20px;
-	width: 100%;
-}
-
-.payment-container h3 {
-	margin-top: 0;
-	font-size: 1.5em;
-	margin-bottom: 20px;
-}
-
-.payment-container p {
-	margin: 10px 0;
-	font-size: 1em;
-}
-
-.payment-container .total {
-	font-weight: bold;
-	border-top: 1px dashed #000;
-	padding-top: 10px;
-	margin-top: 10px;
-}
-
-.payment-methods {
-	display: flex;
-	justify-content: space-between;
-	margin: 20px 0;
-}
-
-.payment-methods button {
-	width: 48%;
-	border: 2px solid #ddd;
-	border-radius: 5px;
-	padding: 10px;
-	cursor: pointer;
-	font-size: 1em;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.payment-methods button i {
-	margin-right: 10px;
-}
-
-.payment-methods button.active {
-	border-color: #000;
-}
-
-.paypal-button {
-	background-color: #ffc439;
-	color: #000;
-	border: none;
-	padding: 10px;
-	border-radius: 5px;
-	cursor: pointer;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 1.2em;
-	margin-top: 20px;
-}
-
-.paypal-button i {
-	margin-right: 10px;
-}
-
-.powered-by {
-	text-align: center;
-	font-size: 0.8em;
-	color: #999;
-	margin-top: 10px;
-}
-
-.campaign-list {
-	background-color: #fff;
-	border-radius: 10px;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	overflow: hidden;
-}
-
-.campaign-item {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 20px;
-	border-bottom: 1px solid #f4f4f4;
-}
-
-.campaign-item:last-child {
-	border-bottom: none;
-}
-
-.campaign-info {
-	display: flex;
-	align-items: center;
-}
-
-.campaign-info img {
-    border-radius: 10px;
-    width: 100%;
-    height: 110px;
-    object-fit: cover;
-    margin-right: 20px;
-}
-
-.campaign-status {
-	display: flex;
-	align-items: center;
-	margin-bottom: 20px;
-}
-
-.campaign-status span {
-	display: flex;
-	align-items: center;
-	color: #999;
-	font-size: 14px;
-}
-.campaign-status hr {
-    width: 40px;
-    height: 1px;
-    background: #cdcdcd;
-    margin: 0px 15px;
-}
-
-.campaign-status span::before {
-	content: "";
+.campaign-item .campaign-info {
 	display: block;
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	background-color: #ccc;
-	margin-right: 10px;
 }
-
-.campaign-title {
-	font-size: 18px;
-	font-weight: bold;
-	margin-bottom: 5px;
+.campaign-info-box {
+	display: flex;
 }
-
-.campaign-id {
-	color: #999;
+.campaign-info-box-left {
+	margin-right: 15px;
+	width: 250px;
 }
-
-.campaign-actions {
-	text-align: right;
-}
-
-.campaign-actions p {
-	margin: 10px 0;
-	font-size: 16px;
-	color: #7d3fff;
-	font-weight: bold;
-}
-
-.campaign-actions button {
-	background-color: #7d3fff;
-	color: #fff;
-	border: none;
-	border-radius: 5px;
-	padding: 10px 20px;
-	cursor: pointer;
-	font-size: 1em;
-}
-.campaign-status span.active {
-	font-weight: 600;
-}
-.campaign-status span.active::before {
-	background-color: #ffcc00;
-	outline: 2px solid #ffcc00;
-    outline-offset: 2px;
-    padding: 2px;
-}
-
-.profile_form_area {
-    width: 100%;
-	margin-top: 100px;
-    display: flex;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-}
-.profile_form_area form{width: 70%;background: #fff;padding: 50px 25px;border-radius: 8px;}
-.profile_form_area form .form_column{display: flex;justify-content: space-between;margin-bottom: 20px;}
-.profile_form_area form .form_column .form-group{width: 46%;}
-.profile_form_area form .form_column .form-group input{border: none;border-bottom: 1px solid #d9d9d9;color: #676767;padding: 10px 10px 10px 0px;}
-.profile_form_area form .form_column .form-group .form-control:focus{box-shadow: none !important;}
-.form-control:disabled{background-color: transparent !important;}
-#payment {margin-top: 10px;}
-#payment img{width: 120px !important;}
-#payment .title h6 {font-size: 14px;line-height: 150%;}
-#payment td{font-size: 14px;}
-
-
 
 @media (max-width: 767px) {
 	.btn {
@@ -2087,14 +1885,8 @@ input[type="range"] {
 		flex-direction: column-reverse;
 	}
 	.choose_content_image {
-        margin-bottom: 40px;
-        display: flex;
-        justify-content: center;
-    }
-	.choose_content_image img{
-        max-width:50%;
-    }
-
+		margin-bottom: 40px;
+	}
 	.channel_boxes {
 		padding: 40px 0px;
 	}
@@ -2191,14 +1983,12 @@ input[type="range"] {
 	.footer_top {
 		padding: 60px 0px 40px 0px;
 	}
-	.dashboard{display: block;}
+	.dashboard {
+		display: block;
+	}
 	.dashboard_sidebar {
 		width: 100%;
-		padding: 20px ;
-	}
-	.circle_img {
-		width: 20px;
-		height: 20px;
+		padding: 20px 40px 20px 20px;
 	}
 	.main_area {
 		width: 100%;
@@ -2216,9 +2006,13 @@ input[type="range"] {
 	.my_channel {
 		width: 160px;
 		font-size: 14px;
-    padding: 10px;
+		padding: 10px;
 	}
-	footer p{margin-bottom: 0px;padding: 10px 0px;font-size: 14px;}
+	footer p {
+		margin-bottom: 0px;
+		padding: 10px 0px;
+		font-size: 14px;
+	}
 	.dashboard .logo_img {
 		width: 100px;
 	}
@@ -2242,61 +2036,217 @@ input[type="range"] {
 		height: 32px;
 	}
 	header .nav-item {
-		 margin: 0px; 
+		margin: 0px;
 	}
-	.campaign-info-box {
-		display: block;
-	}
-	.campaign-status hr{display: none;}
-	.campaign-status span {
-		font-size: 11px !important;
-	}
-	.campaign-status {
-		justify-content: space-between;
-	}
-	.campaign-status span::before {
-		width: 5px;
-		height: 5px;
-	}
-	.campaign-actions {
-		display: flex;
-		justify-content: space-between;
-	}
-	.campaign-title {
-		font-size: 16px;
-		margin-top: 15px;
-	}
-	.profile_form_area form {
-		width: 100% !important;
-	}
-	.profile_form_area form .form_column {
-		display: block !important;
-		 margin-bottom: 0px !important; 
-		 font-size: 20px;
-	}
-	.profile_form_area form .form_column .form-group{margin-bottom: 15px !important;width: 100%;}
-	.profile_form_area form .form_column .form-group label{font-size: 16px;}
-	.profile_form_area{margin-top: 0px;}
-	.dashboard_content_area h2{padding-bottom: 18px !important;}
-	.dashboard_content_area{height: unset;}
-	.why_advertise_heading {
-		margin-bottom: 20px;
-	}
-	.campaign-item {
-		padding: 20px 10px;
-	}
-	.campaign-status span::before {
-		margin-right: 6px;
-	}
-	.menu_admin_data {
-		position: absolute;
-		right: 15px;
-		top: 25px;
-	}
-	.campaign-list{margin-top: 0px !important;}
-	#payment img {
-		height: fit-content;
-	}
-	#payment td .d-flex{display: block !important;}
-	
+}
+
+/*Payment Page*/
+
+.payment-container {
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	width: 100%;
+}
+
+.payment-container h3 {
+	margin-top: 0;
+	font-size: 1.5em;
+	margin-bottom: 20px;
+}
+
+.payment-container p {
+	margin: 10px 0;
+	font-size: 1em;
+}
+
+.payment-container .total {
+	font-weight: bold;
+	border-top: 1px dashed #000;
+	padding-top: 10px;
+	margin-top: 10px;
+}
+
+.payment-methods {
+	display: flex;
+	justify-content: space-between;
+	margin: 20px 0;
+}
+
+.payment-methods button {
+	width: 48%;
+	border: 2px solid #ddd;
+	border-radius: 5px;
+	padding: 10px;
+	cursor: pointer;
+	font-size: 1em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.payment-methods button i {
+	margin-right: 10px;
+}
+
+.payment-methods button.active {
+	border-color: #000;
+}
+
+.paypal-button {
+	background-color: #ffc439;
+	color: #000;
+	border: none;
+	padding: 10px;
+	border-radius: 5px;
+	cursor: pointer;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.2em;
+	margin-top: 20px;
+}
+
+.paypal-button i {
+	margin-right: 10px;
+}
+
+.powered-by {
+	text-align: center;
+	font-size: 0.8em;
+	color: #999;
+	margin-top: 10px;
+}
+
+.campaign-list {
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+}
+
+.campaign-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px;
+	border-bottom: 1px solid #f4f4f4;
+}
+
+.campaign-item:last-child {
+	border-bottom: none;
+}
+
+.campaign-info {
+	display: flex;
+	align-items: center;
+}
+
+.campaign-info img {
+	border-radius: 10px;
+	width: 150px;
+	height: 90px;
+	object-fit: cover;
+	margin-right: 20px;
+}
+
+.campaign-status {
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.campaign-status span {
+	display: flex;
+	align-items: center;
+	color: #999;
+	font-size: 14px;
+}
+.campaign-status hr {
+	width: 40px;
+	height: 1px;
+	background: #cdcdcd;
+	margin: 0px 15px;
+}
+
+.campaign-status span::before {
+	content: "";
+	display: block;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background-color: #ccc;
+	margin-right: 10px;
+}
+
+.campaign-title {
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+.campaign-id {
+	color: #999;
+}
+
+.campaign-actions {
+	text-align: right;
+}
+
+.campaign-actions p {
+	margin: 10px 0;
+	font-size: 16px;
+	color: #7d3fff;
+	font-weight: bold;
+}
+
+.campaign-actions button {
+	background-color: #7d3fff;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	padding: 10px 20px;
+	cursor: pointer;
+	font-size: 1em;
+}
+.campaign-status span.active {
+	font-weight: 600;
+}
+.campaign-status span.active::before {
+	background-color: #ffcc00;
+	outline: 2px solid #ffcc00;
+	outline-offset: 2px;
+	padding: 2px;
+}
+
+.profile_form_area {
+	width: 100%;
+	display: flex;
+	height: 100%;
+	align-items: center;
+	justify-content: center;
+}
+.profile_form_area form {
+	width: 70%;
+	background: #fff;
+	padding: 50px 25px;
+}
+.profile_form_area form .form_column {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 20px;
+}
+.profile_form_area form .form_column .form-group {
+	width: 46%;
+}
+.profile_form_area form .form_column .form-group input {
+	border: none;
+	border-bottom: 1px solid #d9d9d9;
+	color: #363636;
+	padding: 10px 10px 10px 0px;
+}
+.profile_form_area form .form_column .form-group .form-control:focus {
+	box-shadow: none !important;
 }
