@@ -34,6 +34,8 @@ class AuthController extends CI_Controller
     {
         // Initialize the error message
         $data['error'] = '';
+        $data['meta_title'] = "Vedzzy :: Login";
+        $data['meta_descriptions'] = "Vedzzy.com";
 
         /* print_r($this->session->userdata);
         die; */
@@ -49,7 +51,9 @@ class AuthController extends CI_Controller
 
         if ($this->form_validation->run() == FALSE) {
             // Validation failed, load the login view
+            $this->load->view('header-auth', $data);
             $this->load->view('login', $data);
+            $this->load->view('footer-auth', $data);
         } else {
             // Handle POST request
             if ($this->input->server('REQUEST_METHOD') === 'POST') {
@@ -63,12 +67,15 @@ class AuthController extends CI_Controller
                     if (!password_verify($password, $user['password'])) {
                         // Invalid password
                         $this->session->set_flashdata('error', 'Invalid password.');
+                        redirect('login');
                     } elseif ($user['status'] != 1) {
                         // User is not verified
                         $this->session->set_flashdata('error', 'Your account is not active. Please contact our help centre.');
+                        redirect('login');
                     } elseif (!$user['is_verified']) {
                         // User is not verified
                         $this->session->set_flashdata('error', 'Your account is not verified. Please check your email to verify your account.');
+                        redirect('login');
                     } else {
                         // User is verified and password is correct, set user session data
                         $this->setUserSession($user);
@@ -85,11 +92,9 @@ class AuthController extends CI_Controller
                 } else {
                     // Invalid username or email
                     $this->session->set_flashdata('error', 'Invalid username or email.');
+                    redirect('login');
                 }
             }
-
-            // Reload the login view with the error message
-            $this->load->view('login', $data);
         }
     }
 
@@ -147,16 +152,12 @@ class AuthController extends CI_Controller
         $this->input->set_cookie('remember_me', $cookie_value, $cookie_expiration);
     }
 
-
-    // Display the registration page
+    // Display & Handle user registration
     public function register()
     {
-        $this->load->view('register');
-    }
+        $data['meta_title'] = "Vedzzy :: Register";
+        $data['meta_descriptions'] = "Vedzzy.com";
 
-    // Handle user registration
-    public function register_user()
-    {
         // Set validation rules
         $this->form_validation->set_rules('first_name', 'First Name', 'required');
         $this->form_validation->set_rules('last_name', 'Last Name', 'required');
@@ -167,7 +168,10 @@ class AuthController extends CI_Controller
 
         // If validation fails
         if ($this->form_validation->run() == FALSE) {
-            $this->load->view('register');
+
+            $this->load->view('header-auth', $data);
+            $this->load->view('register', $data);
+            $this->load->view('footer-auth', $data);
         } else {
             // Generate verification token
             $verification_token = bin2hex(random_bytes(50));
@@ -195,7 +199,7 @@ class AuthController extends CI_Controller
                 redirect('login');
             } else {
                 $this->session->set_flashdata('error', 'An error occurred. Please try again.');
-                $this->load->view('register');
+                redirect('register');
             }
         }
     }
@@ -294,12 +298,17 @@ class AuthController extends CI_Controller
     // Handle forgot password request
     public function forgot_password()
     {
+        $data['meta_title'] = "Vedzzy :: Forgot Password";
+        $data['meta_descriptions'] = "Vedzzy.com";
+
         // Set validation rules
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
 
         // If validation fails
         if ($this->form_validation->run() == FALSE) {
+            $this->load->view('header-auth', $data);
             $this->load->view('forgot_password');
+            $this->load->view('footer-auth', $data);
         } else {
             $email = $this->input->post('email');
             $user = $this->UserModel->getUserByEmail($email);
@@ -317,7 +326,7 @@ class AuthController extends CI_Controller
                 redirect('forgot-password');
             } else {
                 $this->session->set_flashdata('error', 'No account found with that email.');
-                $this->load->view('forgot_password');
+                redirect('forgot-password');
             }
         }
     }
@@ -325,6 +334,9 @@ class AuthController extends CI_Controller
     // Handle password reset request
     public function reset_password()
     {
+        $data['meta_title'] = "Vedzzy :: Reset Password";
+        $data['meta_descriptions'] = "Vedzzy.com";
+
         $token = $this->input->get('token');
         $user = $this->UserModel->getUserByResetToken($token);
 
@@ -337,7 +349,9 @@ class AuthController extends CI_Controller
             // If validation fails
             if ($this->form_validation->run() == FALSE) {
                 $data['token'] = $token;
+                $this->load->view('header-auth', $data);
                 $this->load->view('reset_password', $data);
+                $this->load->view('footer-auth', $data);
             } else {
                 // Update user's password
                 $new_password = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
@@ -357,6 +371,10 @@ class AuthController extends CI_Controller
 
     public function reset_password_submit()
     {
+
+        $data['meta_title'] = "Vedzzy :: Reset Password";
+        $data['meta_descriptions'] = "Vedzzy.com";
+
         $token = $this->input->post('token');
 
         // Set validation rules
@@ -366,7 +384,10 @@ class AuthController extends CI_Controller
         // If validation fails
         if ($this->form_validation->run() == FALSE) {
             $data['token'] = $token;
+
+            $this->load->view('header-auth', $data);
             $this->load->view('reset_password', $data);
+            $this->load->view('footer-auth', $data);
         } else {
 
             $user = $this->UserModel->getUserByResetToken($token);
